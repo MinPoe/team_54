@@ -18,8 +18,8 @@ CREATE TABLE Investigator(
 );
 
 CREATE TABLE Encounter_Location(
-	latitude CHAR(20),
-	longitude CHAR(20),
+	latitude NUMBER(20, 17),
+	longitude NUMBER(20, 17),
 	city VARCHAR2(100),
 	terrain_type VARCHAR2(50),
 	country VARCHAR2(60),
@@ -28,11 +28,11 @@ CREATE TABLE Encounter_Location(
 
 CREATE TABLE Encounter(
 	encounter_ID INTEGER,
-	latitude CHAR(20),
-	longitude CHAR(20),
+	latitude NUMBER(20, 17),
+	longitude NUMBER(20, 17),
 	duration INTEGER,
 	verified CHAR(1),
-	encounter_time CHAR(20),
+	encounter_time TIMESTAMP,
 	weather VARCHAR2(50),
 	PRIMARY KEY (encounter_ID),
 	FOREIGN KEY (latitude, longitude) REFERENCES Encounter_Location(latitude, longitude)
@@ -42,9 +42,9 @@ CREATE TABLE Reporter(
 	reporter_ID INTEGER,
 	occupation VARCHAR2(60),
 	reliability_rating INTEGER,
-	name VARCHAR2(100),
+	reporter_name VARCHAR2(100),
 	age INTEGER,
-	address VARCHAR2(200),
+	reporter_address VARCHAR2(200),
 	PRIMARY KEY (reporter_ID)
 );
 
@@ -63,7 +63,7 @@ CREATE TABLE Report(
 CREATE TABLE Conclusion(
 	conclusion_ID INTEGER,
 	investigator_ID INTEGER NOT NULL UNIQUE,
-	conclusion_date CHAR(20),
+	conclusion_date TIMESTAMP,
 	verified CHAR(1),
 	confidence_level INTEGER,
 	PRIMARY KEY (conclusion_ID),
@@ -131,96 +131,93 @@ CREATE TABLE Audio(
 	obs_num INTEGER,
 	frequency INTEGER,
 	channels INTEGER,
-	compression VARCHAR2(20),
+	audio_compression VARCHAR2(20),
 	PRIMARY KEY (report_ID, obs_num),
 	FOREIGN KEY (report_ID, obs_num) REFERENCES Observation(report_ID, obs_num) ON DELETE CASCADE
 );
 
 -- INSERT statements for core entity tables
-INSERT INTO UFO VALUES
-(1, 50, 'white', 'sphere', 'erratic'),
-(2, 5, 'black', 'cube', 'straight'),
-(30, 12, 'red', 'pyramid', 'erratic'),
-(400, 35, 'light-blue', 'cylinder', 'straight'),
-(4011, 78, 'green', 'sphere', 'erratic'),;
-INSERT INTO Investigator VALUES
-(23, 'LeBron James', 'lakers@outlook.com', 'placeholder'),
-(77, 'Luka Doncic', 'lakers@outlook.com', 'placeholder'),
-(19, 'Bryan Mbeumo', 'united@mail.com', 'placeholder'),
-(30, 'Stephen Curry', 'warriors@yahoo.com', 'placeholder'),
-(2, 'Shai Gilgeous-Alexander', 'freethrowmerchant@generic.com', 'placeholder'),;
-INSERT INTO Encounter_Location VALUES
-('49.28128377474540000', '-123.026234321161000', 'Vancouver', 'placeholder', 'Canada'),
-('37.56698260000000000', '126.9782352000000000', 'Seoul', 'placeholder', 'South Korea'),
-('35.68950600000000000', '139.6917000000000000', 'Tokyo', 'placeholder', 'Japan'),
-('49.88633480000000000', '-119.493483600000000', 'Kelowna', 'placeholder', 'Canada'),
-('-33.9220161000000000', '18.41958240000000000', 'Cape Town', 'placeholder', 'South Africa'),;
-INSERT INTO Encounter VALUES
-(1, '49.28128377474540000', '-123.026234321161000', 30, 'Y', '2026-03-05 22:41:00 ', 'rainy'),
-(32, '37.56698260000000000', '126.9782352000000000', 120, 'Y', '1999-02-04 09:12:22 ', 'clear'),
-(44, '35.68950600000000000', '139.6917000000000000', 5, 'Y', '2025-01-02 13:33:21 ', 'snowy'),
-(67, '49.88633480000000000', '-119.493483600000000', 2, 'Y', '2026-02-04 10:10:10 ', 'hail'),
-(99, '-33.9220161000000000', '18.41958240000000000', 1, 'Y', '2003-11-07 11:01:07 ', 'clear'),;
-INSERT INTO Reporter VALUES
-(1, 'Singer', 3, 'Joe Joe', 67, '2045 Corkscrew Blvd, Tokyo, Japan'),
-(4, 'Basketball Player', 6, 'Steve Nash', 41, '1111 Rich St, Cape Town, South Africa'),
-(35, 'Content Creator', 1, 'Jake Paul', 11, '205 Rotation Blvd, Vancouver, BC, 7FSJIO, Canada'),
-(53, 'Teacher', 10, 'Ann Ono', 32, '400-1234 London Rd, Kelowna, BC, 324JLK, Canada'),
-(2, 'Pilot', 8, 'Nathan Fielder', 89, '2045 Hello Dr, Seoul, Korea'),;
-INSERT INTO Report VALUES
-(1, 1, 35, 1, 'Under investigation', 3),
-(4, 32, 2, 10, 'Investigation completed', 7),
-(3, 44, 1, 100, 'To be investigated', 4),
-(30, 67, 53, 30, 'Under investigation', 10),
-(40, 99, 4, 15, 'Investigation completed', 1),;
-INSERT INTO Conclusion VALUES
-(1, 23, '2026-03-06 11:07:07', 'Y', 3),
-(2, 77, '2026-03-05 01:07:07', 'N', 5),
-(3, 19, '2026-02-06 13:13:07', 'Y', 8),
-(4, 30, '2021-03-06 11:12:07', 'N', 1),
-(5, 2, '2026-01-06 11:07:12', 'Y', 2),;
+INSERT INTO UFO VALUES (1, 50, 'white', 'sphere', 'erratic');
+INSERT INTO UFO VALUES (2, 5, 'black', 'cube', 'straight');
+INSERT INTO UFO VALUES (30, 12, 'red', 'pyramid', 'erratic');
+INSERT INTO UFO VALUES (400, 35, 'light-blue', 'cylinder', 'straight');
+INSERT INTO UFO VALUES (4011, 78, 'green', 'sphere', 'erratic');
+
+INSERT INTO Investigator VALUES (23, 'LeBron James', 'lakers@outlook.com', 'Retired');
+INSERT INTO Investigator VALUES (77, 'Luka Doncic', 'lakers@outlook.com', 'Active');
+INSERT INTO Investigator VALUES (19, 'Bryan Mbeumo', 'united@mail.com', 'active');
+INSERT INTO Investigator VALUES (30, 'Stephen Curry', 'warriors@yahoo.com', 'inactive');
+INSERT INTO Investigator VALUES (2, 'Shai Gilgeous-Alexander', 'freethrowmerchant@generic.com', 'inactive');
+
+INSERT INTO Encounter_Location VALUES (49.2812837747454, -123.026234321161, 'Vancouver', 'Urban', 'Canada');
+INSERT INTO Encounter_Location VALUES (37.5669826, 126.97823520, 'Seoul', 'Flat', 'South Korea');
+INSERT INTO Encounter_Location VALUES (35.689506, 139.6917, 'Tokyo', 'Mountain', 'Japan');
+INSERT INTO Encounter_Location VALUES (49.8863348, -119.4934836, 'Kelowna', 'Mountain', 'Canada');
+INSERT INTO Encounter_Location VALUES (-33.9220161, 18.4195824, 'Cape Town', 'Desert', 'South Africa');
+
+INSERT INTO Encounter VALUES (1, 49.2812837747454, -123.026234321161, 30, 'Y', '05-MAR-26 10:41:00 PM', 'rainy');
+INSERT INTO Encounter VALUES (32, 37.5669826, 126.97823520, 120, 'N', '04-FEB-99 09:12:22 AM', 'clear');
+INSERT INTO Encounter VALUES (44, 35.689506, 139.6917, 5, 'Y', '02-JAN-25 01:33:21 PM', 'snowy');
+INSERT INTO Encounter VALUES (67, 49.8863348, -119.4934836, 2, 'N', '04-FEB-26 10:10:10 AM', 'hail');
+INSERT INTO Encounter VALUES (99, -33.9220161, 18.4195824, 1, 'Y', '07-NOV-03 11:01:07 AM', 'clear');
+
+INSERT INTO Reporter VALUES (1, 'Singer', 3, 'Joe Joe', 67, '2045 Corkscrew Blvd, Tokyo, Japan');
+INSERT INTO Reporter VALUES (4, 'Basketball Player', 6, 'Steve Nash', 41, '1111 Rich St, Cape Town, South Africa');
+INSERT INTO Reporter VALUES (35, 'Content Creator', 1, 'Jake Paul', 11, '205 Rotation Blvd, Vancouver, BC, 7FSJIO, Canada');
+INSERT INTO Reporter VALUES (53, 'Teacher', 10, 'Ann Ono', 32, '400-1234 London Rd, Kelowna, BC, 324JLK, Canada');
+INSERT INTO Reporter VALUES (2, 'Pilot', 8, 'Nathan Fielder', 89, '2045 Hello Dr, Seoul, Korea');
+
+INSERT INTO Report VALUES (1, 1, 35, 1, 'Under investigation', 3);
+INSERT INTO Report VALUES (4, 32, 2, 10, 'Investigation completed', 7);
+INSERT INTO Report VALUES (3, 44, 1, 100, 'To be investigated', 4);
+INSERT INTO Report VALUES (30, 67, 53, 30, 'Under investigation', 10);
+INSERT INTO Report VALUES (40, 99, 4, 15, 'Investigation completed', 1);
+
+INSERT INTO Conclusion VALUES (1, 23, '06-MAR-26 11:07:07 AM', 'Y', 3);
+INSERT INTO Conclusion VALUES (2, 77, '05-MAR-26 01:07:07 AM', 'N', 5);
+INSERT INTO Conclusion VALUES (3, 19, '06-FEB-26 01:13:07 PM', 'Y', 8);
+INSERT INTO Conclusion VALUES (4, 30, '06-MAR-21 11:12:07 AM', 'N', 1);
+INSERT INTO Conclusion VALUES (5, 2, '06-JAN-26 11:07:12 AM', 'Y', 2);
 -- INSERT statements for relationship tables
-INSERT INTO Investigates VALUES
-(23, 1),
-(77, 4),
-(19, 3),
-(30, 30),
-(2, 40);
-INSERT INTO Involves VALUES
-(1, 1),
-(32, 2),
-(44, 30),
-(67, 400),
-(99, 4011);
-INSERT INTO Classifies VALUES
-(1, 1, 'placeholder'),
-(2, 2, 'placeholder'),
-(3, 30, 'placeholder'),
-(4, 400, 'placeholder'),
-(5, 4011, 'placeholder');
+INSERT INTO Investigates VALUES (23, 1);
+INSERT INTO Investigates VALUES (77, 4);
+INSERT INTO Investigates VALUES (19, 3);
+INSERT INTO Investigates VALUES (30, 30);
+INSERT INTO Investigates VALUES (2, 40);
+
+INSERT INTO Involves VALUES (1, 1);
+INSERT INTO Involves VALUES (32, 2);
+INSERT INTO Involves VALUES (44, 30);
+INSERT INTO Involves VALUES (67, 400);
+INSERT INTO Involves VALUES (99, 4011);
+
+INSERT INTO Classifies VALUES (1, 1, 'Civil Aircraft');
+INSERT INTO Classifies VALUES (2, 2, 'Meteor');
+INSERT INTO Classifies VALUES (3, 30, 'Unidentified');
+INSERT INTO Classifies VALUES (4, 400, 'Spaceship');
+INSERT INTO Classifies VALUES (5, 4011, 'Weather Balloon');
 -- INSERT statements for weak entity and subtypes
-INSERT INTO Observation VALUES
-(1, 1, 30, 'placeholder'),
-(4, 2, 30, 'placeholder'),
-(3, 3, 30, 'placeholder'),
-(30, 4, 30, 'placeholder'),
-(40, 5, 30, 'placeholder');
-INSERT INTO ResolutionAspect VALUES
-('1080x720', '3:2'),
-('1920x1080', '16:9'),
-('400x400', '1:1'),
-('400x200', '2:1'),
-('100x800', '1:8');
-INSERT INTO Visual VALUES
-(1, 1, '1080x720', 3),
-(4, 2, '1920x1080', 3),
-(3, 3, '400x400', 3),
-(30, 4, '400x200', 3),
-(40, 5, '100x800', 3);
-INSERT INTO Audio VALUES
-(1, 1, 30, 20, 'placeholder'),
-(4, 2, 30, 20, 'placeholder'),
-(3, 3, 30, 20, 'placeholder'),
-(30, 4, 30, 20, 'placeholder'),
-(40, 5, 30, 20, 'placeholder');
+INSERT INTO Observation VALUES (1, 1, 30, 'MP4');
+INSERT INTO Observation VALUES (4, 2, 30, 'MOV');
+INSERT INTO Observation VALUES (3, 3, 30, 'AVI');
+INSERT INTO Observation VALUES (30, 4, 30, 'WMV');
+INSERT INTO Observation VALUES (40, 5, 30, 'MKV');
+
+INSERT INTO ResolutionAspect VALUES ('1080x720', '3:2');
+INSERT INTO ResolutionAspect VALUES ('1920x1080', '16:9');
+INSERT INTO ResolutionAspect VALUES ('400x400', '1:1');
+INSERT INTO ResolutionAspect VALUES ('400x200', '2:1');
+INSERT INTO ResolutionAspect VALUES ('100x800', '1:8');
+
+INSERT INTO Visual VALUES (1, 1, '1080x720', 1);
+INSERT INTO Visual VALUES (4, 2, '1920x1080', 8);
+INSERT INTO Visual VALUES (3, 3, '400x400', 16);
+INSERT INTO Visual VALUES (30, 4, '400x200', 24);
+INSERT INTO Visual VALUES (40, 5, '100x800', 48);
+
+INSERT INTO Audio VALUES (1, 1, 30, 20, 'Lossy');
+INSERT INTO Audio VALUES (4, 2, 30, 20, 'Lossless');
+INSERT INTO Audio VALUES (3, 3, 30, 20, 'Lossless');
+INSERT INTO Audio VALUES (30, 4, 30, 20, 'Lossy');
+INSERT INTO Audio VALUES (40, 5, 30, 20, 'Lossless');
 COMMIT;
