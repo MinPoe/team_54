@@ -142,11 +142,25 @@ async function countDemotable() {
     });
 }
 
+async function reportReporterJoin(item) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT r.name, r.age
+             FROM ');
+        return result.rows;
+    }).catch(() => {
+        return -1;
+    });
+}
+
+
+
 module.exports = {
     testOracleConnection,
     fetchDemotableFromDb,
     initiateDemotable, 
     insertDemotable, 
     updateNameDemotable, 
-    countDemotable
+    countDemotable,
+    reportReporterJoin
 };
