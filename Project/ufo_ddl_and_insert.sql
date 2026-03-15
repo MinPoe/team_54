@@ -1,3 +1,19 @@
+-- DROP TABLE STATMENTS
+DROP TABLE Involves;
+DROP TABLE Investigates;
+DROP TABLE Classifies;
+DROP TABLE Visual;
+DROP TABLE Audio;
+DROP TABLE ResolutionAspect;
+DROP TABLE Observation;
+DROP TABLE Conclusion;
+DROP TABLE Report;
+DROP TABLE Reporter;
+DROP TABLE Encounter;
+DROP TABLE Encounter_Location;
+DROP TABLE Investigator;
+DROP TABLE UFO;
+
 -- Core entity tables
 
 CREATE TABLE UFO(
