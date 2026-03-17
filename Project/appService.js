@@ -80,7 +80,7 @@ async function testOracleConnection() {
 
 async function fetchDemotableFromDb() {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT * FROM DEMOTABLE');
+        const result = await connection.execute('SELECT * FROM UFO');
         return result.rows;
     }).catch(() => {
         return [];
@@ -114,7 +114,7 @@ async function initiateDemotable() {
 async function insertDemotable(id, name) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `INSERT INTO DEMOTABLE (id, name) VALUES (:id, :name)`,
+            `INSERT INTO UFO (UFO_ID, ufo_size, colour, shape, movement_pattern) VALUES (:UFO_ID, :ufo_size, :colour, :shape, :movement_pattern)`,
             [id, name],
             { autoCommit: true }
         );
@@ -128,7 +128,7 @@ async function insertDemotable(id, name) {
 async function updateNameDemotable(oldName, newName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `UPDATE DEMOTABLE SET name=:newName where name=:oldName`,
+            `UPDATE UFO SET colour=:newName where colour=:oldName`,
             [newName, oldName],
             { autoCommit: true }
         );
@@ -141,7 +141,7 @@ async function updateNameDemotable(oldName, newName) {
 
 async function countDemotable() {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT Count(*) FROM DEMOTABLE');
+        const result = await connection.execute('SELECT Count(*) FROM UFO');
         return result.rows[0][0];
     }).catch(() => {
         return -1;
