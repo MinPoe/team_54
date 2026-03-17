@@ -2,6 +2,8 @@ const oracledb = require('oracledb');
 const loadEnvFile = require('./utils/envUtil');
 
 const envVariables = loadEnvFile('./.env');
+const fs = require('fs');
+const path = require('path');
 
 // Database configuration setup. Ensure your .env file has the required database credentials.
 const dbConfig = {
@@ -87,18 +89,22 @@ async function fetchDemotableFromDb() {
 
 async function initiateDemotable() {
     return await withOracleDB(async (connection) => {
-        try {
-            await connection.execute(`DROP TABLE DEMOTABLE`);
-        } catch(err) {
-            console.log('Table might not exist, proceeding to create...');
+        const filePath = path.join(__dirname, 'sql', 'ufo_ddl_and_insert.sql');
+        const ufoSQL = fs.readFileSync(filePath, 'utf8');
+        const semicolonremoveUFOStatements = ufoSQL.split(';');
+        const trimUFOStatements = semicolonremoveUFOStatements.map(s => s.trim());
+        const ufoStatements = trimUFOStatements.filter(s => s.length > 0);
+        
+        for (const ufoStatement of ufoStatements) {
+            try {
+                await connection.execute(ufoStatement, [], {autoCommit: true});
+            } catch (error) {
+                if (error.message.includes("ORA-00942")) {
+                    continue;
+                }
+                return false;
+            }
         }
-
-        const result = await connection.execute(`
-            CREATE TABLE DEMOTABLE (
-                id NUMBER PRIMARY KEY,
-                name VARCHAR2(20)
-            )
-        `);
         return true;
     }).catch(() => {
         return false;
@@ -142,25 +148,11 @@ async function countDemotable() {
     });
 }
 
-async function reportReporterJoin(item) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            'SELECT r.name, r.age
-             FROM ');
-        return result.rows;
-    }).catch(() => {
-        return -1;
-    });
-}
-
-
-
 module.exports = {
     testOracleConnection,
     fetchDemotableFromDb,
     initiateDemotable, 
     insertDemotable, 
     updateNameDemotable, 
-    countDemotable,
-    reportReporterJoin
+    countDemotable
 };
