@@ -148,11 +148,72 @@ async function countDemotable() {
     });
 }
 
+async function fetchJoinQuery(minCredibility) {
+    return await withOracleDB(async (connection) => {
+        const joinStatement = `
+            SELECT r.reportID, rt.reporter_name, rt.occupation, r.credibility_score
+            FROM Reporter rt LEFT OUTER JOIN Report r ON rt.reporter_ID = r.reporter_ID
+            WHERE r.credibility_score >= :minCred OR r.credibility_score IS NULL
+        `;
+
+        const results = await connection.execute(joinStatement, [minCredibility]);
+        return results.rows;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function fetchDivision() {
+    return await withOracleDB(async (connection) => {
+        const joinStatement = `
+            SELECT u.shape
+            FROM UFO u
+            WHERE NOT EXISTS (
+                (SELECT l.terrain_type
+                FROM Location l)
+                EXCEPT
+                (SELECT l1.terrain_type
+                 FROM UFO u1, Location l1
+                 WHERE u1.location_ID = l1.location_ID
+                 AND u1.shape = u.shape)
+            )
+        `;
+
+        const results = await connection.execute(joinStatement);
+        return results.rows;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function fetchNestedReporters() {
+    return await withOracleDB(async (connection) => {
+        const nestedStatement = `
+           SELECT r1.reporter_ID, AVG(r1.credibility_score)
+           FROM Report r1
+           GROUP BY r1.reporter_ID
+           HAVING AVG(credibility_score) >= (
+                SELECT AVG(avg_score)
+                FROM (
+                    SELECT AVG(r2.credibility_score) AS avg_score
+                    FROM Report r2
+                    GROUP BY r2.report_ID 
+                )
+           ) 
+        `
+    }).catch(() => {
+        return false;
+    });
+} 
+
 module.exports = {
     testOracleConnection,
     fetchDemotableFromDb,
     initiateDemotable, 
     insertDemotable, 
     updateNameDemotable, 
-    countDemotable
+    countDemotable,
+    fetchJoinQuery,
+    fetchDivision,
+    fetchNestedReporters
 };

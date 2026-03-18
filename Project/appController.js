@@ -64,5 +64,41 @@ router.get('/count-demotable', async (req, res) => {
     }
 });
 
+router.post('/insert-join-query', async (req, res) => {
+    const {query} = req.body;
+    const queryData = await appService.fetchJoinQuery(query);
+    if (queryData) {
+        res.json({
+            success: true,
+            data: queryData
+        });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.post('/division', async (req, res) => {
+    const divResult = await appService.fetchDivision();
+    if (divResult) {
+        res.json({
+            success: true,
+            data: divResult
+        });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.post('/nested-reporters', async (req, res) => {
+    const nestResult = await appService.fetchNestedReporters();
+    if (nestResult) {
+        res.json({
+            success: true,
+            data: nestResult
+        });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
 
 module.exports = router;
