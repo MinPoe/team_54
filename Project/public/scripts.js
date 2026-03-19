@@ -154,6 +154,81 @@ async function countDemotable() {
     }
 }
 
+// Fetches Join Query.
+async function fetchJoinQuery(event) {
+    event.preventDefault();
+
+    const queryValue = document.getElementById('joinQuery').value;
+
+    const response = await fetch('/insert-join-query', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            minCred: queryValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('fetchQueryMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Query Fetched!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error Fetching Query!";
+    }
+}
+
+// Displays Division.
+async function displayDivision() {
+    const tBody = document.getElementById('divisionBody');
+
+    const response = await fetch('/division', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        tBody.innerHTML = "";
+        for (const row of responseData.data) {
+            const tr = document.createElement('tr');
+            const td = document.createElement('td');
+            td.textContent = row[0];
+            tr.appendChild(td);
+            tBody.appendChild(tr);
+        }
+    } else {
+        messageElement.textContent = "Error Fetching Query!";
+    }
+}
+
+// Displays Nest Group By.
+async function displayNestedGroupBy() {
+    const tBody = document.getElementById('nestedGroupByBody');
+
+    const response = await fetch('/nested-reporters', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        tBody.innerHTML = "";
+        for (const row of responseData.data) {
+            const tr = document.createElement('tr');
+            const td = document.createElement('td');
+            td.textContent = row[0];
+            tr.appendChild(td);
+            tBody.appendChild(tr);
+        }
+    } else {
+        messageElement.textContent = "Error Fetching Query!";
+    }
+}
+
 
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
@@ -165,7 +240,9 @@ window.onload = function() {
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
-
+    document.getElementById("fetchJoinQuery").addEventListener("submit", fetchJoinQuery);
+    document.getElementById("displayDivision").addEventListener("click", displayDivision);
+    document.getElementById("displayNestedGroupBy").addEventListener("click", displayNestedGroupBy);
 };
 
 // General function to refresh the displayed table data. 

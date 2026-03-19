@@ -151,7 +151,7 @@ async function countDemotable() {
 async function fetchJoinQuery(minCredibility) {
     return await withOracleDB(async (connection) => {
         const joinStatement = `
-            SELECT r.reportID, rt.reporter_name, rt.occupation, r.credibility_score
+            SELECT r.report_ID, rt.reporter_name, rt.occupation, r.credibility_score
             FROM Reporter rt LEFT OUTER JOIN Report r ON rt.reporter_ID = r.reporter_ID
             WHERE r.credibility_score >= :minCred OR r.credibility_score IS NULL
         `;
@@ -170,12 +170,15 @@ async function fetchDivision() {
             FROM UFO u
             WHERE NOT EXISTS (
                 (SELECT l.terrain_type
-                FROM Location l)
-                EXCEPT
-                (SELECT l1.terrain_type
-                 FROM UFO u1, Location l1
-                 WHERE u1.location_ID = l1.location_ID
-                 AND u1.shape = u.shape)
+                FROM Encounter_Location l)
+                MINUS
+                (SELECT ll.terrain_type
+                 FROM UFO u1, Involves i, Encounter e, Encounter_Location ll
+                 WHERE u1.UFO_ID = i.UFO_ID
+                 AND i.encounter_ID = e.encounter_ID
+                 AND e.latitude = ll.latitude
+                 AND e.longitude = ll.longitude
+                 AND u.shape = u1.shape)
             )
         `;
 
@@ -201,6 +204,8 @@ async function fetchNestedReporters() {
                 )
            ) 
         `
+        const results = await connection.execute(nestedStatement);
+        return results.rows;
     }).catch(() => {
         return false;
     });

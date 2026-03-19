@@ -65,8 +65,8 @@ router.get('/count-demotable', async (req, res) => {
 });
 
 router.post('/insert-join-query', async (req, res) => {
-    const {query} = req.body;
-    const queryData = await appService.fetchJoinQuery(query);
+    const {minCred} = req.body;
+    const queryData = await appService.fetchJoinQuery(minCred);
     if (queryData) {
         res.json({
             success: true,
@@ -77,7 +77,7 @@ router.post('/insert-join-query', async (req, res) => {
     }
 });
 
-router.post('/division', async (req, res) => {
+router.get('/division', async (req, res) => {
     const divResult = await appService.fetchDivision();
     if (divResult) {
         res.json({
@@ -89,7 +89,7 @@ router.post('/division', async (req, res) => {
     }
 });
 
-router.post('/nested-reporters', async (req, res) => {
+router.get('/nested-reporters', async (req, res) => {
     const nestResult = await appService.fetchNestedReporters();
     if (nestResult) {
         res.json({
