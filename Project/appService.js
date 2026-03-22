@@ -111,11 +111,11 @@ async function initiateDemotable() {
     });
 }
 
-async function insertDemotable(id, name) {
+async function insertDemotable(id, size, colour, shape, pattern) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO UFO (UFO_ID, ufo_size, colour, shape, movement_pattern) VALUES (:UFO_ID, :ufo_size, :colour, :shape, :movement_pattern)`,
-            [id, name],
+            [id, size, colour, shape, pattern],
             { autoCommit: true }
         );
 
@@ -166,7 +166,7 @@ async function fetchJoinQuery(minCredibility) {
 async function fetchDivision() {
     return await withOracleDB(async (connection) => {
         const joinStatement = `
-            SELECT u.shape
+            SELECT DISTINCT u.shape
             FROM UFO u
             WHERE NOT EXISTS (
                 (SELECT l.terrain_type
@@ -192,7 +192,7 @@ async function fetchDivision() {
 async function fetchNestedReporters() {
     return await withOracleDB(async (connection) => {
         const nestedStatement = `
-           SELECT r1.reporter_ID, AVG(r1.credibility_score)
+           SELECT r1.reporter_ID, AVG(r1.credibility_score) AS AVGSCORE
            FROM Report r1
            GROUP BY r1.reporter_ID
            HAVING AVG(credibility_score) >= (

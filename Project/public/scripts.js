@@ -83,7 +83,10 @@ async function insertDemotable(event) {
     event.preventDefault();
 
     const idValue = document.getElementById('insertId').value;
-    const nameValue = document.getElementById('insertName').value;
+    const sizeValue = document.getElementById('insertSize').value;
+    const colourValue = document.getElementById('insertColour').value;
+    const shapeValue = document.getElementById('insertShape').value;
+    const patternValue = document.getElementById('insertPattern').value;
 
     const response = await fetch('/insert-demotable', {
         method: 'POST',
@@ -92,7 +95,10 @@ async function insertDemotable(event) {
         },
         body: JSON.stringify({
             id: idValue,
-            name: nameValue
+            size: sizeValue,
+            colour: colourValue,
+            shape: shapeValue,
+            pattern: patternValue
         })
     });
 
@@ -159,6 +165,7 @@ async function fetchJoinQuery(event) {
     event.preventDefault();
 
     const queryValue = document.getElementById('joinQuery').value;
+    const tBody = document.getElementById('fetchJoinTableBody');
 
     const response = await fetch('/insert-join-query', {
         method: 'POST',
@@ -175,7 +182,18 @@ async function fetchJoinQuery(event) {
 
     if (responseData.success) {
         messageElement.textContent = "Query Fetched!";
-        fetchTableData();
+        tBody.innerHTML = "";
+        for (const row of responseData.data) {
+            const tr = tBody.insertRow();
+            const tdID = tr.insertCell();
+            tdID.textContent = row[0];
+            const tdName = tr.insertCell();
+            tdName.textContent = row[1];
+            const tdOccupation = tr.insertCell();
+            tdOccupation.textContent = row[2];
+            const tdCred = tr.insertCell();
+            tdCred.textContent = row[3];
+        }
     } else {
         messageElement.textContent = "Error Fetching Query!";
     }
@@ -190,6 +208,7 @@ async function displayDivision() {
     });
 
     const responseData = await response.json();
+    const messageElement = document.getElementById('divisionMsg');
 
     if (responseData.success) {
         tBody.innerHTML = "";
@@ -214,6 +233,7 @@ async function displayNestedGroupBy() {
     });
 
     const responseData = await response.json();
+    const messageElement = document.getElementById('nestedMsg');
 
     if (responseData.success) {
         tBody.innerHTML = "";
@@ -222,6 +242,9 @@ async function displayNestedGroupBy() {
             const td = document.createElement('td');
             td.textContent = row[0];
             tr.appendChild(td);
+            const tdAvg = document.createElement('td');
+            tdAvg.textContent = row[1];
+            tr.appendChild(tdAvg);
             tBody.appendChild(tr);
         }
     } else {

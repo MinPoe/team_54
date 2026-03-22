@@ -55,7 +55,10 @@
     <h2> Insert Values into DemoTable </h2>
     <form id="insertDemotable">
         ID: <input type="number" id="insertId" placeholder="Enter ID" required> <br><br>
-        Name: <input type="text" id="insertName" placeholder="Enter Name" maxlength="20"> <br><br>
+        Size: <input type="number" id="insertSize" placeholder="Enter Size" maxlength="20"> <br><br>
+        Colour: <input type="text" id="insertColour" placeholder="Enter Colour" required> <br><br>
+        Shape: <input type="text" id="insertShape" placeholder="Enter Shape" maxlength="20"> <br><br>
+        Movement Pattern: <input type="text" id="insertPattern" placeholder="Enter Pattern" required> <br><br>
 
         <button type="submit"> insert </button> <br>
     </form>
@@ -115,6 +118,7 @@
         </tbody>
     </table>
     <button id = "displayNestedGroupBy">Fetch Nested Group By</button>
+    <div id="nestedMsg"></div>
 
     <h2>Division</h2>
     <table id = "division">
@@ -128,7 +132,7 @@
         </tbody>
     </table>
     <button id = "displayDivision">Display UFO shapes that are in all terrain types</button>
-
+    <div id = "divisionMsg"></div>
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
     <script src="scripts.js"></script>
