@@ -58,7 +58,7 @@ CREATE TABLE Reporter(
 	reporter_ID INTEGER,
 	occupation VARCHAR2(60),
 	reliability_rating INTEGER,
-	reporter_name VARCHAR2(100),
+	reporter_name VARCHAR2(100) UNIQUE,
 	age INTEGER,
 	reporter_address VARCHAR2(200),
 	PRIMARY KEY (reporter_ID)

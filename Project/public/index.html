@@ -133,6 +133,114 @@
     </table>
     <button id = "displayDivision">Display UFO shapes that are in all terrain types</button>
     <div id = "divisionMsg"></div>
+
+    <br><hr><br>
+ 
+    <!-- ======================== INSERT Report (with FK validation) ==================== -->
+    <h2>Insert Report</h2>
+    <p>Insert a new report. Encounter ID and Reporter ID must reference existing records (foreign keys are validated).</p>
+    <form id="insertReportForm">
+        Report ID: <input type="number" id="insertReportID" placeholder="Enter Report ID" required> <br><br>
+ 
+        Encounter ID:
+        <select id="insertReportEncounterID" required>
+            <option value="">-- Loading... --</option>
+        </select> <br><br>
+ 
+        Reporter ID:
+        <select id="insertReportReporterID" required>
+            <option value="">-- Loading... --</option>
+        </select> <br><br>
+ 
+        Witness Count: <input type="number" id="insertReportWitnessCount" placeholder="Enter Witness Count" min="1"> <br><br>
+ 
+        Report Status:
+        <select id="insertReportStatus">
+            <option value="Under investigation">Under investigation</option>
+            <option value="Investigation completed">Investigation completed</option>
+            <option value="To be investigated">To be investigated</option>
+        </select> <br><br>
+ 
+        Credibility Score: <input type="number" id="insertReportCredScore" placeholder="Enter Credibility Score (1-10)" min="1" max="10"> <br><br>
+ 
+        <button type="submit">Insert Report</button>
+    </form>
+    <div id="insertReportMsg"></div>
+ 
+    <br><hr><br>
+ 
+    <!-- ==================== UPDATE Reporter ==================== -->
+    <h2>Update Reporter</h2>
+    <p>Select a reporter from the table below, then edit their name, age, and occupation.</p>
+    <table id="reporterTuplesTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Occupation</th>
+                <th>Reliability</th>
+                <th>Address</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="reporterTuplesBody">
+        </tbody>
+    </table>
+    <br>
+    <form id="updateReporterForm">
+        Reporter ID: <input type="number" id="updateReporterID" readonly placeholder="Select from table above"> <br><br>
+        New Name: <input type="text" id="updateReporterName" placeholder="Enter New Name" required> <br><br>
+        New Age: <input type="number" id="updateReporterAge" placeholder="Enter New Age" required> <br><br>
+        New Occupation: <input type="text" id="updateReporterOccupation" placeholder="Enter New Occupation" required> <br><br>
+        <button type="submit">Update Reporter</button>
+    </form>
+    <div id="updateReporterMsg"></div>
+ 
+    <br><hr><br>
+ 
+    <!-- ======================= SELECTION UFO (dynamic AND/OR) ==================== -->
+    <h2>Search UFO</h2>
+    <p>Add conditions to search the UFO table. Combine multiple AND/OR conditions and use parentheses for grouping.</p>
+ 
+    <div id="selectionConditionsContainer"></div>
+    <br>
+    <button id="addSelectionCondition">+ Add Condition</button>
+    <button id="executeSelectionUFO">Search</button>
+    <div id="selectionUFOMsg"></div>
+    <br>
+    <table id="selectionUFOTable">
+        <thead>
+            <tr>
+                <th>UFO_ID</th>
+                <th>ufo_size</th>
+                <th>colour</th>
+                <th>shape</th>
+                <th>movement_pattern</th>
+            </tr>
+        </thead>
+        <tbody id="selectionUFOBody">
+        </tbody>
+    </table>
+ 
+    <br><hr><br>
+ 
+    <!-- ====================== GROUP BY city ==================== -->
+    <h2>Report Count by City</h2>
+    <p>Shows the total number of sighting reports per city using GROUP BY aggregation.</p>
+    <button id="displayGroupByCity">Show Report Count by City</button>
+    <div id="groupByCityMsg"></div>
+    <br>
+    <table id="groupByCityTable">
+        <thead>
+            <tr>
+                <th>City</th>
+                <th>Report Count</th>
+            </tr>
+        </thead>
+        <tbody id="groupByCityBody">
+        </tbody>
+    </table>
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
     <script src="scripts.js"></script>
