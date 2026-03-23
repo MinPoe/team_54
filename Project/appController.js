@@ -101,4 +101,86 @@ router.get('/nested-reporters', async (req, res) => {
     }
 });
 
+/* INSERT Report: GET encounter, GET reporter */
+router.get('/encounters', async (req, res) => {
+    const encounters = await appService.fetchAllEncounters();
+    res.json({ data: encounters });
+});
+ 
+router.get('/reporters', async (req, res) => {
+    const reporters = await appService.fetchAllReporters();
+    res.json({ data: reporters });
+});
+
+router.post('/insert-report', async (req, res) => {
+    const { reportID, encounterID, reporterID, witnessCount, reportStatus, credibilityScore } = req.body;
+ 
+    if (!reportID || !encounterID || !reporterID) {
+        return res.status(400).json({ success: false, message: 'Report ID, Encounter ID, and Reporter ID are required.' });
+    }
+ 
+    const result = await appService.insertReport(
+        parseInt(reportID),
+        parseInt(encounterID),
+        parseInt(reporterID),
+        witnessCount ? parseInt(witnessCount) : null,
+        reportStatus || null,
+        credibilityScore ? parseInt(credibilityScore) : null
+    );
+    
+    if (result.success) {
+        res.json({ success: true, message: result.message });
+    } else {
+        res.status(400).json({ success: false, message: result.message });
+    }
+});
+
+/* UPDATE Reporter: GET all reporter tuples */ 
+router.get('/reporter-tuples', async (req, res) => {
+    const tuples = await appService.fetchAllReporterTuples();
+    res.json({ data: tuples });
+});
+
+router.post('/update-reporter', async (req, res) => {
+    const { reporterID, newName, newAge, newOccupation } = req.body;
+ 
+    if (!reporterID || !newName || !newAge || !newOccupation) {
+        return res.status(400).json({ success: false, message: 'All fields are required.' });
+    }
+ 
+    const result = await appService.updateReporter(
+        parseInt(reporterID),
+        newName,
+        parseInt(newAge),
+        newOccupation
+    );
+ 
+    if (result.success) {
+        res.json({ success: true, message: result.message });
+    } else {
+        res.status(400).json({ success: false, message: result.message });
+    }
+});
+
+/* SELECTION -> UFO */
+router.post('/selection-ufo', async (req, res) => {
+    const { conditions, groups } = req.body;
+    const result = await appService.selectionUFO(conditions, groups);
+    if (result.success) {
+        res.json({ success: true, data: result.data });
+    } else {
+        res.status(400).json({ success: false, message: result.message, data: [] });
+    }
+});
+
+/* GROUP BY -> COUNT(report_ID), GROUP BY 'city' */
+router.get('/group-by-city', async (req, res) => {
+    const result = await appService.groupByCity();
+    if (result) {
+        res.json({ success: true, data: result });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 module.exports = router;
