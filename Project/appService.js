@@ -209,7 +209,61 @@ async function fetchNestedReporters() {
     }).catch(() => {
         return false;
     });
-} 
+}
+
+async function deleteEncounter(encounter_ID) {
+    return await withOracleDB(async (connection) => {
+        const deleteStatement = `
+        DELETE FROM Encounter
+        WHERE encounter_ID = :encounter_ID
+        `
+        const results = await connection.execute(deleteStatement, {encounter_ID : encounter_ID}, {autoCommit : true})
+        return results.rowsAffected && results.rowsAffected > 0
+    }).catch(() => {
+        return false;
+    })
+}
+
+async function projectionLocation(selectedAttributes) {
+    return await withOracleDB(async (connection) => {
+        const allowedAttributes = ["latitude", "longitude", "city", "terrain_type", "country"]
+        let attributeList = ""
+
+        if (selectedAttributes.length > 0 && selectedAttributes.every(attribute => allowedAttributes.includes(attribute))) {
+            attributeList = selectedAttributes.join(", ")
+        } else {
+            return false;
+        }
+
+        const projectionStatement = `
+            SELECT ${attributeList}
+            FROM Encounter_Location
+            `
+        const results = await connection.execute(projectionStatement)
+        return results.rows
+    }).catch(() => {
+        return false;
+    })
+}
+
+async function groupByHavingTerrain(reportCount) {
+    return await withOracleDB(async (connection) => {
+        const groupByHavingStatement = `
+            SELECT el.terrain_type, COUNT(r.report_ID)
+            FROM Encounter_Location el
+            JOIN Encounter e
+            ON e.longitude = el.longitude AND e.latitude = el.latitude
+            JOIN Report r
+            ON r.encounter_ID = e.encounter_ID
+            GROUP BY el.terrain_type
+            HAVING COUNT(r.report_ID) > :reportCount
+        `
+        const results = await connection.execute(groupByHavingStatement, {reportCount : reportCount})
+        return results.rows
+    }).catch(() => {
+        return false;
+    })
+}
 
 module.exports = {
     testOracleConnection,
@@ -220,5 +274,8 @@ module.exports = {
     countDemotable,
     fetchJoinQuery,
     fetchDivision,
-    fetchNestedReporters
+    fetchNestedReporters,
+    deleteEncounter,
+    projectionLocation,
+    groupByHavingTerrain
 };
