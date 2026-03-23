@@ -424,7 +424,7 @@ async function deleteEncounter(encounter_ID) {
         const deleteStatement = `
         DELETE FROM Encounter
         WHERE encounter_ID = :encounter_ID
-        `
+        `;
         const results = await connection.execute(deleteStatement, {encounter_ID : encounter_ID}, {autoCommit : true})
         return results.rowsAffected && results.rowsAffected > 0
     }).catch(() => {
@@ -446,7 +446,7 @@ async function projectionLocation(selectedAttributes) {
         const projectionStatement = `
             SELECT ${attributeList}
             FROM Encounter_Location
-            `
+            `;
         const results = await connection.execute(projectionStatement)
         return results.rows
     }).catch(() => {
@@ -465,7 +465,7 @@ async function groupByHavingTerrain(reportCount) {
             ON r.encounter_ID = e.encounter_ID
             GROUP BY el.terrain_type
             HAVING COUNT(r.report_ID) > :reportCount
-        `
+        `;
         const results = await connection.execute(groupByHavingStatement, {reportCount : reportCount})
         return results.rows
     }).catch(() => {
