@@ -133,6 +133,22 @@ router.post('/update-reporter', async (req, res) => {
     if (!reporterID || !newName || !newAge || !newOccupation) {
         return res.status(400).json({ success: false, message: 'All fields are required.' });
     }
+
+    const regexCheckLetters = /^[A-Za-z\s]+$/;
+
+    if (!regexCheckLetters.test(newName)) {
+        return res.status(400).json({
+            success: false,
+            message: "Name must contain only letters or spaces."
+        })
+    }
+
+    if (!regexCheckLetters.test(newOccupation)) {
+        return res.status(400).json({
+            success: false,
+            message: "Occupation must contain only letters or spaces."
+        })
+    }
  
     const result = await appService.updateReporter(
         parseInt(reporterID),
