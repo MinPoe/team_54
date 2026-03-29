@@ -78,69 +78,6 @@ async function resetDemotable() {
     }
 }
 
-// Inserts new records into the demotable.
-async function insertDemotable(event) {
-    event.preventDefault();
-
-    const idValue = document.getElementById('insertId').value;
-    const sizeValue = document.getElementById('insertSize').value;
-    const colourValue = document.getElementById('insertColour').value;
-    const shapeValue = document.getElementById('insertShape').value;
-    const patternValue = document.getElementById('insertPattern').value;
-
-    const response = await fetch('/insert-demotable', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: idValue,
-            size: sizeValue,
-            colour: colourValue,
-            shape: shapeValue,
-            pattern: patternValue
-        })
-    });
-
-    const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
-
-    if (responseData.success) {
-        messageElement.textContent = "Data inserted successfully!";
-        fetchTableData();
-    } else {
-        messageElement.textContent = "Error inserting data!";
-    }
-}
-
-// Updates names in the demotable.
-async function updateNameDemotable(event) {
-    event.preventDefault();
-
-    const oldNameValue = document.getElementById('updateOldName').value;
-    const newNameValue = document.getElementById('updateNewName').value;
-
-    const response = await fetch('/update-name-demotable', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            oldName: oldNameValue,
-            newName: newNameValue
-        })
-    });
-
-    const responseData = await response.json();
-    const messageElement = document.getElementById('updateNameResultMsg');
-
-    if (responseData.success) {
-        messageElement.textContent = "Name updated successfully!";
-        fetchTableData();
-    } else {
-        messageElement.textContent = "Error updating name!";
-    }
-}
 
 // Counts rows in the demotable.
 // Modify the function accordingly if using different aggregate functions or procedures.
@@ -299,6 +236,10 @@ async function insertReport(event) {
     const data = await response.json();
     msgEl.textContent = data.message;
     msgEl.style.color = data.success ? 'green' : 'red';
+
+    if (data.success) {
+        fetchTableData();
+    }
 }
  
  
@@ -534,8 +475,6 @@ window.onload = function() {
     checkDbConnection();
     fetchTableData();
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
-    document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
-    document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
     document.getElementById("fetchJoinQuery").addEventListener("submit", fetchJoinQuery);
     document.getElementById("displayDivision").addEventListener("click", displayDivision);

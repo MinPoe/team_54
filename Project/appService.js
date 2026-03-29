@@ -80,7 +80,7 @@ async function testOracleConnection() {
 
 async function fetchDemotableFromDb() {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT * FROM UFO');
+        const result = await connection.execute('SELECT * FROM REPORT ORDER BY report_ID ASC');
         return result.rows;
     }).catch(() => {
         return [];
@@ -111,37 +111,9 @@ async function initiateDemotable() {
     });
 }
 
-async function insertDemotable(id, size, colour, shape, pattern) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO UFO (UFO_ID, ufo_size, colour, shape, movement_pattern) VALUES (:UFO_ID, :ufo_size, :colour, :shape, :movement_pattern)`,
-            [id, size, colour, shape, pattern],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateNameDemotable(oldName, newName) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE UFO SET colour=:newName where colour=:oldName`,
-            [newName, oldName],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
 async function countDemotable() {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT Count(*) FROM UFO');
+        const result = await connection.execute('SELECT Count(*) FROM Report');
         return result.rows[0][0];
     }).catch(() => {
         return -1;
@@ -476,9 +448,7 @@ async function groupByHavingTerrain(reportCount) {
 module.exports = {
     testOracleConnection,
     fetchDemotableFromDb,
-    initiateDemotable, 
-    insertDemotable, 
-    updateNameDemotable, 
+    initiateDemotable,
     countDemotable,
     fetchJoinQuery,
     fetchDivision,
