@@ -78,7 +78,7 @@ async function testOracleConnection() {
     });
 }
 
-async function fetchDemotableFromDb() {
+async function fetchReportTableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute('SELECT * FROM REPORT ORDER BY report_ID ASC');
         return result.rows;
@@ -87,7 +87,7 @@ async function fetchDemotableFromDb() {
     });
 }
 
-async function initiateDemotable() {
+async function initiateReportTable() {
     return await withOracleDB(async (connection) => {
         const filePath = path.join(__dirname, 'sql', 'ufo_ddl_and_insert.sql');
         const ufoSQL = fs.readFileSync(filePath, 'utf8');
@@ -111,7 +111,7 @@ async function initiateDemotable() {
     });
 }
 
-async function countDemotable() {
+async function countReportTable() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute('SELECT Count(*) FROM Report');
         return result.rows[0][0];
@@ -447,9 +447,9 @@ async function groupByHavingTerrain(reportCount) {
 
 module.exports = {
     testOracleConnection,
-    fetchDemotableFromDb,
-    initiateDemotable,
-    countDemotable,
+    fetchReportTableFromDb,
+    initiateReportTable,
+    countReportTable,
     fetchJoinQuery,
     fetchDivision,
     fetchNestedReporters,

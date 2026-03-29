@@ -15,13 +15,13 @@ router.get('/check-db-connection', async (req, res) => {
     }
 });
 
-router.get('/demotable', async (req, res) => {
-    const tableContent = await appService.fetchDemotableFromDb();
+router.get('/report-table', async (req, res) => {
+    const tableContent = await appService.fetchReportTableFromDb();
     res.json({ data: tableContent });
 });
 
-router.post("/initiate-demotable", async (req, res) => {
-    const initiateResult = await appService.initiateDemotable();
+router.post("/initiate-report-table", async (req, res) => {
+    const initiateResult = await appService.initiateReportTable();
     if (initiateResult) {
         res.json({ success: true });
     } else {
@@ -29,8 +29,8 @@ router.post("/initiate-demotable", async (req, res) => {
     }
 });
 
-router.get('/count-demotable', async (req, res) => {
-    const tableCount = await appService.countDemotable();
+router.get('/count-report-table', async (req, res) => {
+    const tableCount = await appService.countReportTable();
     if (tableCount >= 0) {
         res.json({
             success: true,

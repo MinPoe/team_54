@@ -36,24 +36,24 @@ async function checkDbConnection() {
     });
 }
 
-// Fetches data from the demotable and displays it.
+// Fetches data from the Report table and displays it.
 async function fetchAndDisplayUsers() {
-    const tableElement = document.getElementById('demotable');
+    const tableElement = document.getElementById('reportTable');
     const tableBody = tableElement.querySelector('tbody');
 
-    const response = await fetch('/demotable', {
+    const response = await fetch('/report-table', {
         method: 'GET'
     });
 
     const responseData = await response.json();
-    const demotableContent = responseData.data;
+    const reportTableContent = responseData.data;
 
     // Always clear old, already fetched data before new fetching process.
     if (tableBody) {
         tableBody.innerHTML = '';
     }
 
-    demotableContent.forEach(user => {
+    reportTableContent.forEach(user => {
         const row = tableBody.insertRow();
         user.forEach((field, index) => {
             const cell = row.insertCell(index);
@@ -62,16 +62,16 @@ async function fetchAndDisplayUsers() {
     });
 }
 
-// This function resets or initializes the demotable.
-async function resetDemotable() {
-    const response = await fetch("/initiate-demotable", {
+// This function resets or initializes the Report table.
+async function resetReportTable() {
+    const response = await fetch("/initiate-report-table", {
         method: 'POST'
     });
     const responseData = await response.json();
 
     if (responseData.success) {
         const messageElement = document.getElementById('resetResultMsg');
-        messageElement.textContent = "demotable initiated successfully!";
+        messageElement.textContent = "Report table initiated successfully!";
         fetchTableData();
     } else {
         alert("Error initiating table!");
@@ -79,10 +79,10 @@ async function resetDemotable() {
 }
 
 
-// Counts rows in the demotable.
+// Counts rows in the Report table.
 // Modify the function accordingly if using different aggregate functions or procedures.
-async function countDemotable() {
-    const response = await fetch("/count-demotable", {
+async function countReportTable() {
+    const response = await fetch("/count-report-table", {
         method: 'GET'
     });
 
@@ -91,9 +91,9 @@ async function countDemotable() {
 
     if (responseData.success) {
         const tupleCount = responseData.count;
-        messageElement.textContent = `The number of tuples in demotable: ${tupleCount}`;
+        messageElement.textContent = `The number of Reports: ${tupleCount}`;
     } else {
-        alert("Error in count demotable!");
+        alert("Error in count report table!");
     }
 }
 
@@ -474,8 +474,8 @@ async function displayGroupByCity() {
 window.onload = function() {
     checkDbConnection();
     fetchTableData();
-    document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
-    document.getElementById("countDemotable").addEventListener("click", countDemotable);
+    document.getElementById("resetReportTable").addEventListener("click", resetReportTable);
+    document.getElementById("countReportTable").addEventListener("click", countReportTable);
     document.getElementById("fetchJoinQuery").addEventListener("submit", fetchJoinQuery);
     document.getElementById("displayDivision").addEventListener("click", displayDivision);
     document.getElementById("displayNestedGroupBy").addEventListener("click", displayNestedGroupBy);
