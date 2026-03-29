@@ -92,6 +92,9 @@
 
     <br><hr><br>
     <h2>Fetch Join Query</h2>
+    <p>Displays Report ID, Reporter Name, Reporter Occupation,
+        and Credibility Score of reports with an equal or higher
+        score to the inputted value.</p>
     <table id = "fetchJoinTable">
         <thead>
             <tr>
@@ -105,8 +108,9 @@
 
         </tbody>
     </table>
+    <br>
     <form id="fetchJoinQuery">
-        Query: <input type="text" id="joinQuery" placeholder="Enter Query" required> <br><br>
+        Query: <input type="number" id="joinQuery" min = "0" max = "10" placeholder="Enter Minimum Score" required> <br><br>
         <button type="submit"> Fetch </button> <br>
     </form>
     <div id="fetchQueryMsg"></div> <br>
@@ -123,6 +127,7 @@
 
         </tbody>
     </table>
+    <br>
     <button id = "displayNestedGroupBy">Fetch Nested Group By</button>
     <div id="nestedMsg"></div>
 
@@ -137,6 +142,7 @@
 
         </tbody>
     </table>
+    <br>
     <button id = "displayDivision">Display UFO shapes that are in all terrain types</button>
     <div id = "divisionMsg"></div>
 

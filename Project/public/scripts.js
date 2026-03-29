@@ -117,6 +117,14 @@ async function fetchJoinQuery(event) {
     const responseData = await response.json();
     const messageElement = document.getElementById('fetchQueryMsg');
 
+    if (isNaN(queryValue)) {
+        messageElement.textContent = "Please enter a valid number."
+        return;
+    } else if (queryValue < 0 || queryValue > 10) {
+        messageElement.textContent = "Score must be between 0 and 10.";
+        return;
+    }
+
     if (responseData.success) {
         messageElement.textContent = "Query Fetched!";
         tBody.innerHTML = "";

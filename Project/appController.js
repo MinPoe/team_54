@@ -46,7 +46,13 @@ router.get('/count-report-table', async (req, res) => {
 
 router.post('/insert-join-query', async (req, res) => {
     const {minCred} = req.body;
-    const queryData = await appService.fetchJoinQuery(minCred);
+    const queryData = await appService.fetchJoinQuery(parseInt(minCred));
+    if (isNaN(minCred)) {
+        return res.status(400).json({
+            success: false,
+            message: "Credibility Score must be a number"
+        });
+    }
     if (queryData) {
         res.json({
             success: true,
