@@ -141,12 +141,22 @@ router.post('/update-reporter', async (req, res) => {
             success: false,
             message: "Name must contain only letters or spaces."
         })
+    } else if (!newName.trim()) {
+        return res.status(400).json({
+            success: false,
+            message: "Name must contain at least one letter."
+        })
     }
 
     if (!regexCheckLetters.test(newOccupation)) {
         return res.status(400).json({
             success: false,
             message: "Occupation must contain only letters or spaces."
+        })
+    } else if (!newOccupation.trim()) {
+        return res.status(400).json({
+            success: false,
+            message: "Occupation must contain at least one letter."
         })
     }
  
