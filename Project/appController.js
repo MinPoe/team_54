@@ -225,5 +225,22 @@ router.post('/projection-location', async (req, res) => {
 });
 
 // GROUP BY HAVING TERRAIN
+router.post('/group-by-having-terrain', async (req, res) => {
+    const { reportCount } = req.body;
+    const result = await appService.groupByHavingTerrain(parseInt(reportCount));
+
+    if (isNaN(reportCount)) {
+        return res.status(400).json({
+            success: false,
+            message: "Report count must be a number"
+        });
+    }
+
+    if (result) {
+        res.json({ success: true, data: result });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
 
 module.exports = router;
