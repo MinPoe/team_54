@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- This meta tag ensures that the website renders correctly across different device sizes, enhancing mobile responsiveness. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the external CSS stylesheet. Uncomment if you wish to customize or add styling. -->
+    <link rel="stylesheet" href="styles.css">  
+
+    <title>Database Application</title>
+</head>
+<body>
+    <!-- ===================================================================================== -->
+    <!-- Display the current status of the database connection. 
+         !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
+         -->
+         <h1>Database Connection Status: 
+            <!-- An in-line placeholder to display connection status. -->
+            <span id="dbStatus"> </span>
+            <!-- A loading GIF, will be hided once get the status. -->
+            <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
+        </h1>
+    
+        <ul class = "navbar">
+            <li><a href = "index.html">Reports</a></li>
+            <li><a href = "misc.html">Misc</a></li>
+        </ul>
+        <br><hr><br>
+        <h2>Fetch Join Query</h2>
+        <p>Displays Report ID, Reporter Name, Reporter Occupation,
+            and Credibility Score of reports with an equal or higher
+            score to the inputted value.</p>
+        <table id = "fetchJoinTable">
+            <thead>
+                <tr>
+                    <th>report_ID</th>
+                    <th>reporter_name</th>
+                    <th>occupation</th>
+                    <th>credibility_score</th>
+                </tr>
+            </thead>
+            <tbody id="fetchJoinTableBody">
+    
+            </tbody>
+        </table>
+        <br>
+        <form id="fetchJoinQuery">
+            Query: <input type="number" id="joinQuery" min = "0" max = "10" placeholder="Enter Minimum Score" required> <br><br>
+            <button type="submit"> Fetch </button> <br>
+        </form>
+        <div id="fetchQueryMsg"></div> <br>
+    
+        <h2>Nested Group By</h2>
+        <table id = "nestedGroupBy">
+            <thead>
+                <tr>
+                    <th>Reporter ID</th>
+                    <th>Avg Credibility Score</th>
+                </tr>
+            </thead>
+            <tbody id = "nestedGroupByBody">
+    
+            </tbody>
+        </table>
+        <br>
+        <button id = "displayNestedGroupBy">Fetch Nested Group By</button>
+        <div id="nestedMsg"></div>
+    
+        <h2>Division</h2>
+        <table id = "division">
+            <thead>
+                <tr>
+                    <th>Shape</th>
+                </tr>
+            </thead>
+            <tbody id = "divisionBody">
+    
+            </tbody>
+        </table>
+        <br>
+        <button id = "displayDivision">Display UFO shapes that are in all terrain types</button>
+        <div id = "divisionMsg"></div>
+    
+        <br><hr><br>
+     
+        <!-- ==================== UPDATE Reporter ==================== -->
+        <h2>Update Reporter</h2>
+        <p>Select a reporter from the table below, then edit their name, age, and occupation.</p>
+        <table id="reporterTuplesTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Occupation</th>
+                    <th>Reliability</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="reporterTuplesBody">
+            </tbody>
+        </table>
+        <br>
+        <form id="updateReporterForm">
+            Reporter ID: <input type="number" id="updateReporterID" readonly placeholder="Select from table above"> <br><br>
+            New Name: <input type="text" id="updateReporterName" placeholder="Enter New Name" required> <br><br>
+            New Age: <input type="number" id="updateReporterAge" placeholder="Enter New Age" required> <br><br>
+            New Occupation: <input type="text" id="updateReporterOccupation" placeholder="Enter New Occupation" required> <br><br>
+            <button type="submit">Update Reporter</button>
+        </form>
+        <div id="updateReporterMsg"></div>
+     
+        <br><hr><br>
+     
+        <!-- ======================= SELECTION UFO (dynamic AND/OR) ==================== -->
+        <h2>Search UFO</h2>
+        <p>Add conditions to search the UFO table. Combine multiple AND/OR conditions and use parentheses for grouping.</p>
+     
+        <div id="selectionConditionsContainer"></div>
+        <br>
+        <button id="addSelectionCondition">+ Add Condition</button>
+        <button id="executeSelectionUFO">Search</button>
+        <div id="selectionUFOMsg"></div>
+        <br>
+        <table id="selectionUFOTable">
+            <thead>
+                <tr>
+                    <th>UFO_ID</th>
+                    <th>ufo_size</th>
+                    <th>colour</th>
+                    <th>shape</th>
+                    <th>movement_pattern</th>
+                </tr>
+            </thead>
+            <tbody id="selectionUFOBody">
+            </tbody>
+        </table>
+     
+        <br><hr><br>
+     
+        <!-- ====================== GROUP BY city ==================== -->
+        <h2>Report Count by City</h2>
+        <p>Shows the total number of sighting reports per city using GROUP BY aggregation.</p>
+        <button id="displayGroupByCity">Show Report Count by City</button>
+        <div id="groupByCityMsg"></div>
+        <br>
+        <table id="groupByCityTable">
+            <thead>
+                <tr>
+                    <th>City</th>
+                    <th>Report Count</th>
+                </tr>
+            </thead>
+            <tbody id="groupByCityBody">
+            </tbody>
+        </table>
+    <!-- ===================================================================================== -->
+    <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
+    <script src="scripts.js"></script>
+</body>
+</html>
