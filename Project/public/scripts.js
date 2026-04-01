@@ -481,19 +481,24 @@ async function displayGroupByCity() {
 // Add or remove event listeners based on the desired functionalities.
 window.onload = function() {
     checkDbConnection();
-    fetchTableData();
-    document.getElementById("resetReportTable").addEventListener("click", resetReportTable);
-    document.getElementById("countReportTable").addEventListener("click", countReportTable);
-    document.getElementById("fetchJoinQuery").addEventListener("submit", fetchJoinQuery);
-    document.getElementById("displayDivision").addEventListener("click", displayDivision);
-    document.getElementById("displayNestedGroupBy").addEventListener("click", displayNestedGroupBy);
-    populateInsertReportDropdowns();
-    document.getElementById("insertReportForm").addEventListener("submit", insertReport);
-    loadReporterTuples();
-    document.getElementById("updateReporterForm").addEventListener("submit", updateReporter);
-    document.getElementById("addSelectionCondition").addEventListener("click", addSelectionCondition);
-    document.getElementById("executeSelectionUFO").addEventListener("click", executeSelectionUFO);
-    document.getElementById("displayGroupByCity").addEventListener("click", displayGroupByCity);
+    if (document.getElementById("reportTable")) {
+        fetchTableData();
+        populateInsertReportDropdowns();
+        document.getElementById("resetReportTable").addEventListener("click", resetReportTable);
+        document.getElementById("insertReportForm").addEventListener("submit", insertReport);
+        document.getElementById("countReportTable").addEventListener("click", countReportTable);
+    }
+
+    if (document.getElementById("executeSelectionUFO")) {
+        loadReporterTuples();
+        document.getElementById("fetchJoinQuery").addEventListener("submit", fetchJoinQuery);
+        document.getElementById("displayDivision").addEventListener("click", displayDivision);
+        document.getElementById("displayNestedGroupBy").addEventListener("click", displayNestedGroupBy);
+        document.getElementById("updateReporterForm").addEventListener("submit", updateReporter);
+        document.getElementById("addSelectionCondition").addEventListener("click", addSelectionCondition);
+        document.getElementById("executeSelectionUFO").addEventListener("click", executeSelectionUFO);
+        document.getElementById("displayGroupByCity").addEventListener("click", displayGroupByCity);
+    }
 };
 
 // General function to refresh the displayed table data. 
