@@ -195,4 +195,18 @@ router.get('/group-by-city', async (req, res) => {
     }
 });
 
+/* DELETE -> Encounter */
+router.post('/delete-encounter', async (req, res) => {
+    const {encounterID} = req.body;
+    const result = await appService.deleteEncounter(encounterID);
+    if (result) {
+        res.json({ success: true, message: `Encounter ${encounterID} deleted successfully!`});
+    } else {
+        res.status(400).json({
+            success: false,
+            message: "Failed to delete encounter, not a valid Encounter ID"
+        });
+    }
+});
+
 module.exports = router;

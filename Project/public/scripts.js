@@ -473,6 +473,33 @@ async function displayGroupByCity() {
         msgEl.style.color = 'red';
     }
 }
+
+// DELETE -> Encounter
+async function deleteEncounter(event) {
+    event.preventDefault();
+    const input = document.getElementById('deleteEncounterID');
+    const msgEl = document.getElementById('deleteEncounterMsg');
+    const encounterID = input.value;
+    if (!encounterID) {
+        alert("Please enter an Encounter ID.");
+        return;
+    }
+    const response = await fetch('/delete-encounter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ encounterID: encounterID })
+    });
+    const data = await response.json();
+
+    if (data.success) {
+        msgEl.textContent = data.message;
+        msgEl.style.color = 'green';
+        await fetchTableData();
+    } else {
+        msgEl.textContent = data.message;
+        msgEl.style.color = 'red';
+    }
+}
  
 
 
@@ -487,6 +514,7 @@ window.onload = function() {
         document.getElementById("resetReportTable").addEventListener("click", resetReportTable);
         document.getElementById("insertReportForm").addEventListener("submit", insertReport);
         document.getElementById("countReportTable").addEventListener("click", countReportTable);
+        document.getElementById("deleteEncounterForm").addEventListener("submit", deleteEncounter);
     }
 
     if (document.getElementById("executeSelectionUFO")) {
@@ -503,6 +531,6 @@ window.onload = function() {
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
-function fetchTableData() {
+async function fetchTableData() {
     fetchAndDisplayUsers();
 }

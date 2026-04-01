@@ -391,6 +391,7 @@ async function groupByCity() {
     });
 }
 
+/* DELETE -> Encounter */
 async function deleteEncounter(encounter_ID) {
     return await withOracleDB(async (connection) => {
         const deleteStatement = `
