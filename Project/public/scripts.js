@@ -566,8 +566,6 @@ window.onload = function() {
         document.getElementById("insertReportForm").addEventListener("submit", insertReport);
         document.getElementById("countReportTable").addEventListener("click", countReportTable);
         document.getElementById("deleteEncounterForm").addEventListener("submit", deleteEncounter);
-        document.getElementById("projectionLocationForm").addEventListener("submit", projectionLocation);
-        document.getElementById("groupByHavingTerrainForm").addEventListener("submit", groupByHavingTerrain);
     }
 
     if (document.getElementById("executeSelectionUFO")) {
@@ -579,6 +577,8 @@ window.onload = function() {
         document.getElementById("addSelectionCondition").addEventListener("click", addSelectionCondition);
         document.getElementById("executeSelectionUFO").addEventListener("click", executeSelectionUFO);
         document.getElementById("displayGroupByCity").addEventListener("click", displayGroupByCity);
+        document.getElementById("projectionLocationForm").addEventListener("submit", projectionLocation);
+        document.getElementById("groupByHavingTerrainForm").addEventListener("submit", groupByHavingTerrain);
     }
 };
 
