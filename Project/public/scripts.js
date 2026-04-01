@@ -502,13 +502,55 @@ async function deleteEncounter(event) {
 }
 
 // PROJECTION
-async function projectionLocation() {
-    
+async function projectionLocation(event) {
+    event.preventDefault();
+    const userInput = document.getElementById('projectionAttributes').value;
+    const attributes = userInput.split(',').map(a=>a.trim());
+
+    const response = await fetch('/projection-location', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({attributes})
+    });
+
+    const data = await response.json();
+
+    const resultDiv = document.getElementById('projectionLocationResult');
+    resultDiv.innerHTML = "";
+
+    if (data.success) {
+        document.getElementById('projectionLocationResult').innerHTML =
+            data.result.map(row => row.join(" | ")).join("<br>");
+    } else {
+        document.getElementById('projectionLocationResult').innerHTML =
+            "Invalid attributes";
+    }
 }
 
 // GROUP BY HAVING TERRAIN
-async function groupByHavingTerrain() {
+async function groupByHavingTerrain(event) {
+    event.preventDefault();
 
+    const reportCount = document.getElementById('terrainReportCount').value;
+
+    const response = await fetch('/group-by-having-terrain', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reportCount })
+    });
+
+    const data = await response.json();
+
+    const resultDiv = document.getElementById('groupByHavingTerrainResult');
+    resultDiv.innerHTML = "";
+
+    if (data.success) {
+        document.getElementById('groupByHavingTerrainResult').innerHTML =
+            data.data.map(([terrain, count]) => terrain + " | " + count).join("<br>");
+    } else {
+        document.getElementById('groupByHavingTerrainResult').innerHTML =
+            "Error running query";
+    }
 }
 
 
@@ -524,6 +566,8 @@ window.onload = function() {
         document.getElementById("insertReportForm").addEventListener("submit", insertReport);
         document.getElementById("countReportTable").addEventListener("click", countReportTable);
         document.getElementById("deleteEncounterForm").addEventListener("submit", deleteEncounter);
+        document.getElementById("projectionLocationForm").addEventListener("submit", projectionLocation);
+        document.getElementById("groupByHavingTerrainForm").addEventListener("submit", groupByHavingTerrain);
     }
 
     if (document.getElementById("executeSelectionUFO")) {
