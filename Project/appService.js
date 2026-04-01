@@ -405,6 +405,7 @@ async function deleteEncounter(encounter_ID) {
     })
 }
 
+// PROJECTION
 async function projectionLocation(selectedAttributes) {
     return await withOracleDB(async (connection) => {
         const allowedAttributes = ["latitude", "longitude", "city", "terrain_type", "country"]

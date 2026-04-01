@@ -209,4 +209,21 @@ router.post('/delete-encounter', async (req, res) => {
     }
 });
 
+// PROJECTION
+router.post('/projection-location', async (req, res) => {
+    const {attributes} = req.body;
+    const result = await appService.projectionLocation(attributes);
+
+    if (result) {
+        res.json({ success: true, result: result});
+    } else {
+        res.status(400).json({
+            success: false,
+            message: "Invalid attributes chosen,"
+        });
+    }
+});
+
+// GROUP BY HAVING TERRAIN
+
 module.exports = router;

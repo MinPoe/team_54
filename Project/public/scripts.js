@@ -500,7 +500,11 @@ async function deleteEncounter(event) {
         msgEl.style.color = 'red';
     }
 }
- 
+
+// PROJECTION
+async function projectionLocation() {
+    // TODO 
+}
 
 
 // ---------------------------------------------------------------
