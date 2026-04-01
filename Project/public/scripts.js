@@ -503,7 +503,12 @@ async function deleteEncounter(event) {
 
 // PROJECTION
 async function projectionLocation() {
-    // TODO 
+    
+}
+
+// GROUP BY HAVING TERRAIN
+async function groupByHavingTerrain() {
+
 }
 
 
