@@ -165,35 +165,39 @@
             </tbody>
         </table>
     <!-- =============================PROJECTION============================================ -->
-    <br><hr><br>
-
-    <h2>Projection Location</h2>
-    <p>Select the Location attributes you want to display. Seperate each with a comma.</p>
-    
+    <h2>Projection on Encounter_Location</h2>
+    <p>Enter attributes (latitude, longitude, city, country) separated by commas.</p>
     <form id="projectionLocationForm">
-        <label for="projectionAttributes">Attributes:</label><br>
-        <input type="text" id="projectionAttributes" placeholder="Enter attributes (longitude, latitude, city, terrain_type, country)" required> <br><br>
-    
+        Attributes:
+        <input type="text" id="projectionAttributes" placeholder="latitude, city, country" required>
         <button type="submit">Run Projection</button>
-    </form>
-    
+    </form>  
     <div id="projectionLocationMsg"></div>
-    <div id="projectionLocationResult"></div>
+    <table id="projectionLocationTable" border="1">
+        <thead>
+            <tr id="projectionLocationHeadRow">
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
     <!-- =============================GROUP BY HAVING TERRAIN=========================================== -->
-    <br><hr><br>
-
     <h2>Group By Having Terrain</h2>
-    <p>Show terrain types with more than a given number of reports.</p>
-    
     <form id="groupByHavingTerrainForm">
-        <label for="terrainReportCount">Minimum Report Count:</label><br>
-        <input type="number" id="terrainReportCount" placeholder="Enter minimum report count" min="0" required> <br><br>
-    
+        Min Reports:
+        <input type="number" id="terrainReportCount" required>
         <button type="submit">Run Query</button>
     </form>
-    
     <div id="groupByHavingTerrainMsg"></div>
-    <div id="groupByHavingTerrainResult"></div>
+    <table id="groupByHavingTerrainTable" border="1">
+        <thead>
+            <tr>
+                <th>Terrain</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
     <script src="scripts.js"></script>

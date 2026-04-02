@@ -482,33 +482,62 @@ async function deleteEncounter(event) {
 
 // PROJECTION
 async function projectionLocation(event) {
-    event.preventDefault();
+    event.preventDefault(); // stop page refresh
+
+    // get and format user input
     const userInput = document.getElementById('projectionAttributes').value;
-    const attributes = userInput.split(',').map(a=>a.trim());
+    const attributes = userInput.split(',').map(a => a.trim()).filter(a => a !== '');
 
     const response = await fetch('/projection-location', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({attributes})
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ attributes })
     });
 
     const data = await response.json();
 
-    const resultDiv = document.getElementById('projectionLocationResult');
-    resultDiv.innerHTML = "";
+    const tableElement = document.getElementById('projectionLocationTable');
+    const tableHeadRow = document.getElementById('projectionLocationHeadRow');
+    const tableBody = tableElement.querySelector('tbody');
+    const messageElement = document.getElementById('projectionLocationMsg');
+
+    // clear old results
+    tableHeadRow.innerHTML = '';
+    tableBody.innerHTML = '';
+    messageElement.textContent = '';
 
     if (data.success) {
-        document.getElementById('projectionLocationResult').innerHTML =
-            data.result.map(row => row.join(" | ")).join("<br>");
+
+        // build table header
+        attributes.forEach(attribute => {
+            const th = document.createElement('th');
+            th.textContent = attribute;
+            tableHeadRow.appendChild(th);
+        });
+
+        data.result.forEach(rowData => {
+            const row = tableBody.insertRow();
+
+            rowData.forEach((field, index) => {
+                const cell = row.insertCell(index);
+                cell.textContent = field;
+            });
+        });
+
+        if (data.result.length === 0) {
+            messageElement.textContent = "No results found.";
+        } else {
+            messageElement.textContent = "Query fetched!";
+        }
+
     } else {
-        document.getElementById('projectionLocationResult').innerHTML =
-            "Invalid attributes";
+        messageElement.textContent = "Invalid attributes";
     }
 }
 
 // GROUP BY HAVING TERRAIN
 async function groupByHavingTerrain(event) {
-    event.preventDefault();
+    event.preventDefault(); // stop page refresh
 
     const reportCount = document.getElementById('terrainReportCount').value;
 
@@ -520,15 +549,33 @@ async function groupByHavingTerrain(event) {
 
     const data = await response.json();
 
-    const resultDiv = document.getElementById('groupByHavingTerrainResult');
-    resultDiv.innerHTML = "";
+    const tableElement = document.getElementById('groupByHavingTerrainTable');
+    const tableBody = tableElement.querySelector('tbody');
+    const messageElement = document.getElementById('groupByHavingTerrainMsg');
+
+    // clear old results
+    tableBody.innerHTML = '';
+    messageElement.textContent = '';
 
     if (data.success) {
-        document.getElementById('groupByHavingTerrainResult').innerHTML =
-            data.data.map(([terrain, count]) => terrain + " | " + count).join("<br>");
+        // fill rows
+        data.data.forEach(rowData => {
+            const row = tableBody.insertRow();
+
+            rowData.forEach((field, index) => {
+                const cell = row.insertCell(index);
+                cell.textContent = field;
+            });
+        });
+
+        if (data.data.length === 0) {
+            messageElement.textContent = "No results found.";
+        } else {
+            messageElement.textContent = "Query fetched!";
+        }
+
     } else {
-        document.getElementById('groupByHavingTerrainResult').innerHTML =
-            "Error running query";
+        messageElement.textContent = "Error running query";
     }
 }
 
