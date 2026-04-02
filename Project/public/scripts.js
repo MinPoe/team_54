@@ -553,6 +553,31 @@ async function groupByHavingTerrain(event) {
     }
 }
 
+async function fetchAndDisplayEncounters() {
+    const tableElement = document.getElementById('encounterTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/encounter-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const reportTableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    reportTableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
 
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
@@ -565,7 +590,6 @@ window.onload = function() {
         document.getElementById("resetReportTable").addEventListener("click", resetReportTable);
         document.getElementById("insertReportForm").addEventListener("submit", insertReport);
         document.getElementById("countReportTable").addEventListener("click", countReportTable);
-        document.getElementById("deleteEncounterForm").addEventListener("submit", deleteEncounter);
     }
 
     if (document.getElementById("executeSelectionUFO")) {
@@ -580,10 +604,16 @@ window.onload = function() {
         document.getElementById("projectionLocationForm").addEventListener("submit", projectionLocation);
         document.getElementById("groupByHavingTerrainForm").addEventListener("submit", groupByHavingTerrain);
     }
+
+    if (document.getElementById("encounterTable")) {
+        fetchAndDisplayEncounters();
+        document.getElementById("deleteEncounterForm").addEventListener("submit", deleteEncounter);
+    }
 };
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
 async function fetchTableData() {
     fetchAndDisplayUsers();
+    fetchAndDisplayEncounters();
 }

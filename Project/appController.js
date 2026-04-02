@@ -243,4 +243,9 @@ router.post('/group-by-having-terrain', async (req, res) => {
     }
 });
 
+router.get('/encounter-table', async (req, res) => {
+    const tableContent = await appService.fetchEncounterTableFromDb();
+    res.json({ data: tableContent });
+});
+
 module.exports = router;

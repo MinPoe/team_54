@@ -447,6 +447,15 @@ async function groupByHavingTerrain(reportCount) {
     })
 }
 
+async function fetchEncounterTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM ENCOUNTER ORDER BY encounter_ID ASC');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
 module.exports = {
     testOracleConnection,
     fetchReportTableFromDb,
@@ -464,5 +473,6 @@ module.exports = {
     fetchAllReporterTuples,
     updateReporter,
     selectionUFO,
-    groupByCity
+    groupByCity,
+    fetchEncounterTableFromDb
 };
