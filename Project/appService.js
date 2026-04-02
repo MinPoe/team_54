@@ -263,7 +263,7 @@ async function fetchAllReporterTuples() {
  *      3 non-PKs: name, age, occupation
  *      1 non-PK UNIQUE: name
 */
-async function updateReporter(reporterID, newName, newAge, newOccupation) {
+async function updateReporter(reporterID, newName, newAge, newOccupation, newReliability, newAddress) {
     return await withOracleDB(async (connection) => {
         const reporterCheck = await connection.execute(
             'SELECT COUNT(*) FROM Reporter WHERE reporter_ID = :id', [reporterID]
@@ -282,9 +282,9 @@ async function updateReporter(reporterID, newName, newAge, newOccupation) {
  
         const result = await connection.execute(
             `UPDATE Reporter 
-             SET reporter_name = :newName, age = :newAge, occupation = :newOccupation
+             SET reporter_name = :newName, age = :newAge, occupation = :newOccupation, reliability_rating = :newReliability, reporter_address = :newAddress
              WHERE reporter_ID = :reporterID`,
-            [newName, newAge, newOccupation, reporterID],
+            [newName, newAge, newOccupation, newReliability, newAddress, reporterID],
             { autoCommit: true }
         );
  

@@ -128,9 +128,9 @@ router.get('/reporter-tuples', async (req, res) => {
 });
 
 router.post('/update-reporter', async (req, res) => {
-    const { reporterID, newName, newAge, newOccupation } = req.body;
+    const { reporterID, newName, newAge, newOccupation, newReliability, newAddress } = req.body;
  
-    if (!reporterID || !newName || !newAge || !newOccupation) {
+    if (!reporterID || !newName || !newAge || !newOccupation || !newReliability || !newAddress) {
         return res.status(400).json({ success: false, message: 'All fields are required.' });
     }
 
@@ -164,7 +164,9 @@ router.post('/update-reporter', async (req, res) => {
         parseInt(reporterID),
         newName,
         parseInt(newAge),
-        newOccupation
+        newOccupation,
+        newReliability ? parseInt(newReliability) : null,
+        newAddress || null
     );
  
     if (result.success) {

@@ -276,6 +276,8 @@ async function loadReporterTuples() {
             document.getElementById('updateReporterName').value = row[1] || '';
             document.getElementById('updateReporterAge').value = row[2] || '';
             document.getElementById('updateReporterOccupation').value = row[3] || '';
+            document.getElementById('updateReporterReliability').value = row[4] || '';
+            document.getElementById('updateReporterAddress').value = row[5] || '';
             document.getElementById('updateReporterMsg').textContent = `Editing Reporter ${row[0]}`;
             document.getElementById('updateReporterMsg').style.color = '#333';
         });
@@ -293,6 +295,8 @@ async function updateReporter(event) {
     const newName = document.getElementById('updateReporterName').value;
     const newAge = document.getElementById('updateReporterAge').value;
     const newOccupation = document.getElementById('updateReporterOccupation').value;
+    const newReliability = document.getElementById('updateReporterReliability').value;
+    const newAddress = document.getElementById('updateReporterAddress').value;
  
     if (!reporterID) {
         msgEl.textContent = 'Please select a reporter from the table first.';
@@ -303,7 +307,7 @@ async function updateReporter(event) {
     const response = await fetch('/update-reporter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reporterID, newName, newAge, newOccupation })
+        body: JSON.stringify({ reporterID, newName, newAge, newOccupation, newReliability, newAddress })
     });
  
     const data = await response.json();
