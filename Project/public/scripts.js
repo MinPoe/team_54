@@ -662,9 +662,9 @@ async function fetchAndDisplayEncounters() {
 // Add or remove event listeners based on the desired functionalities.
 window.onload = function() {
     checkDbConnection();
+    document.getElementById("resetTables").addEventListener("click", resetTables);
     if (document.getElementById("reportTable")) {
         fetchTableData();
-        document.getElementById("resetTables").addEventListener("click", resetTables);
         document.getElementById("insertReportForm").addEventListener("submit", insertReport);
         document.getElementById("countReportTable").addEventListener("click", countReportTable);
     }
@@ -680,16 +680,14 @@ window.onload = function() {
 
     if (document.getElementById("displayDivision")) {
         fetchTableData();
-        loadReporterTuples();
         document.getElementById("displayDivision").addEventListener("click", displayDivision);
         document.getElementById("displayNestedGroupBy").addEventListener("click", displayNestedGroupBy);
-        document.getElementById("updateReporterForm").addEventListener("submit", updateReporter);
+        document.getElementById("displayGroupByCity").addEventListener("click", displayGroupByCity);
     }
 
     if (document.getElementById("updateReporterForm")) {
-        fetchTableData();
         loadReporterTuples();
-        document.getElementById("displayGroupByCity").addEventListener("click", displayGroupByCity);
+        document.getElementById("updateReporterForm").addEventListener("submit", updateReporter);
     }
 
     if (document.getElementById("encounterTable")) {
