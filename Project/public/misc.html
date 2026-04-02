@@ -52,11 +52,14 @@
         <div id="fetchQueryMsg"></div> <br>
     
         <h2>Nested Group By</h2>
+        <p>Displays all reporters with an average credibiilty score
+            on their reports that is higher than the
+            average credibility score.</p>
         <table id = "nestedGroupBy">
             <thead>
                 <tr>
                     <th>Reporter ID</th>
-                    <th>Avg Credibility Score</th>
+                    <th>Average Credibility Score</th>
                 </tr>
             </thead>
             <tbody id = "nestedGroupByBody">
@@ -64,10 +67,11 @@
             </tbody>
         </table>
         <br>
-        <button id = "displayNestedGroupBy">Fetch Nested Group By</button>
+        <button id = "displayNestedGroupBy">Display</button>
         <div id="nestedMsg"></div>
     
         <h2>Division</h2>
+        <p>Displays UFO shapes that are in all terrain types.</p>
         <table id = "division">
             <thead>
                 <tr>
@@ -79,7 +83,7 @@
             </tbody>
         </table>
         <br>
-        <button id = "displayDivision">Display UFO shapes that are in all terrain types</button>
+        <button id = "displayDivision">Display</button>
         <div id = "divisionMsg"></div>
     
         <br><hr><br>
@@ -160,11 +164,11 @@
     <br><hr><br>
 
     <h2>Projection Location</h2>
-    <p>Select the Location attributes you want to display.</p>
+    <p>Select the Location attributes you want to display. Seperate each with a comma.</p>
     
     <form id="projectionLocationForm">
         <label for="projectionAttributes">Attributes:</label><br>
-        <input type="text" id="projectionAttributes" placeholder="Enter attributes like latitude, city, country" required> <br><br>
+        <input type="text" id="projectionAttributes" placeholder="Enter attributes (longitude, latitude, city, terrain_type, country)" required> <br><br>
     
         <button type="submit">Run Projection</button>
     </form>

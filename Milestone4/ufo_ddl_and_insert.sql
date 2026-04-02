@@ -72,7 +72,7 @@ CREATE TABLE Report(
 	report_status CHAR(40),
 	credibility_score INTEGER,
 	PRIMARY KEY (report_ID),
-	FOREIGN KEY (encounter_ID) REFERENCES Encounter(encounter_ID),
+	FOREIGN KEY (encounter_ID) REFERENCES Encounter(encounter_ID) ON DELETE CASCADE,
 	FOREIGN KEY (reporter_ID) REFERENCES Reporter(reporter_ID)
 );
 
