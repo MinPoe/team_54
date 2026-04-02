@@ -124,7 +124,7 @@ async function fetchJoinQuery(minCredibility) {
     return await withOracleDB(async (connection) => {
         const joinStatement = `
             SELECT r.report_ID, rt.reporter_name, rt.occupation, r.credibility_score
-            FROM Reporter rt LEFT OUTER JOIN Report r ON rt.reporter_ID = r.reporter_ID
+            FROM Reporter rt INNER JOIN Report r ON rt.reporter_ID = r.reporter_ID
             WHERE r.credibility_score >= :minCred OR r.credibility_score IS NULL
         `;
 
