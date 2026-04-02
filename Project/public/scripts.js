@@ -173,7 +173,7 @@ async function displayDivision() {
 async function displayNestedGroupBy() {
     const tBody = document.getElementById('nestedGroupByBody');
 
-    const response = await fetch('/nested-reporters', {
+    const response = await fetch('/nested', {
         method: 'GET'
     });
 

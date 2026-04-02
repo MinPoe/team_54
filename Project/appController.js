@@ -75,8 +75,8 @@ router.get('/division', async (req, res) => {
     }
 });
 
-router.get('/nested-reporters', async (req, res) => {
-    const nestResult = await appService.fetchNestedReporters();
+router.get('/nested', async (req, res) => {
+    const nestResult = await appService.fetchNested();
     if (nestResult) {
         res.json({
             success: true,

@@ -36,18 +36,17 @@
         <br><hr><br> <!-- ========================================================================= -->
         <!-- A placeholder to display messages related to the reset operation. -->
         <div id="resetResultMsg"></div>
-        <h2>Nested Group By</h2>
-        <p>Displays all reporters with an average credibiilty score
-            on their reports that is higher than the
-            average credibility score.</p>
+        <h2>Nested Group By: Underperformers</h2>
+        <p>Identifies which investigator status group (Retired, Active, Inactive)
+            has the lowest average confidence level in their conclusions.</p>
         <button id = "displayNestedGroupBy">Display</button>
         <div id="nestedMsg"></div>
         <br>
         <table id = "nestedGroupBy">
             <thead>
                 <tr>
-                    <th>Reporter ID</th>
-                    <th>Average Credibility Score</th>
+                    <th>Investigator Status</th>
+                    <th>Average Confidence Level (1-10 scale)</th>
                 </tr>
             </thead>
             <tbody id = "nestedGroupByBody">
