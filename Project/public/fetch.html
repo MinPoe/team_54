@@ -33,35 +33,60 @@
         </ul>
         
         <br><hr><br>
-        <!-- ==================== UPDATE Reporter ==================== -->
-        <h2>Update Reporter</h2>
-        <p>Select a reporter from the table below, then edit their information (except their ID).</p>
-        <table id="reporterTuplesTable">
+        <h2>Nested Group By</h2>
+        <p>Displays all reporters with an average credibiilty score
+            on their reports that is higher than the
+            average credibility score.</p>
+        <button id = "displayNestedGroupBy">Display</button>
+        <div id="nestedMsg"></div>
+        <br>
+        <table id = "nestedGroupBy">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Occupation</th>
-                    <th>Reliability</th>
-                    <th>Address</th>
-                    <th>Action</th>
+                    <th>Reporter ID</th>
+                    <th>Average Credibility Score</th>
                 </tr>
             </thead>
-            <tbody id="reporterTuplesBody">
+            <tbody id = "nestedGroupByBody">
+    
             </tbody>
         </table>
+        <br><hr><br>
+    
+        <h2>Division</h2>
+        <p>Displays UFO shapes that are in all terrain types.</p>
+        <button id = "displayDivision">Display</button>
+        <div id = "divisionMsg"></div>
         <br>
-        <form id="updateReporterForm">
-            Reporter ID: <input type="number" id="updateReporterID" readonly placeholder="Select from table above"> <br><br>
-            New Name: <input type="text" id="updateReporterName" placeholder="Enter New Name" required> <br><br>
-            New Age: <input type="number" id="updateReporterAge" placeholder="Enter New Age" required> <br><br>
-            New Occupation: <input type="text" id="updateReporterOccupation" placeholder="Enter New Occupation" required> <br><br>
-            New Reliability (1-10): <input type="number" id="updateReporterReliability" placeholder="Enter Reliability Rating" min="1" max="10"> <br><br>
-            New Address: <input type="text" id="updateReporterAddress" placeholder="Enter Address"> <br><br>
-            <button type="submit">Update Reporter</button>
-        </form>
-        <div id="updateReporterMsg"></div>
+        <table id = "division">
+            <thead>
+                <tr>
+                    <th>Shape</th>
+                </tr>
+            </thead>
+            <tbody id = "divisionBody">
+    
+            </tbody>
+        </table>
+    
+        <br><hr><br>
+     
+        <!-- ====================== GROUP BY city ==================== -->
+        <h2>Report Count by City</h2>
+        <p>Shows the total number of sighting reports per city using GROUP BY aggregation.</p>
+        <button id="displayGroupByCity">Show Report Count by City</button>
+        <div id="groupByCityMsg"></div>
+        <br>
+        <table id="groupByCityTable">
+            <thead>
+                <tr>
+                    <th>City</th>
+                    <th>Report Count</th>
+                </tr>
+            </thead>
+            <tbody id="groupByCityBody">
+            </tbody>
+        </table>
 
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->

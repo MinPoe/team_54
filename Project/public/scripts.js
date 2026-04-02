@@ -684,6 +684,11 @@ window.onload = function() {
         document.getElementById("displayDivision").addEventListener("click", displayDivision);
         document.getElementById("displayNestedGroupBy").addEventListener("click", displayNestedGroupBy);
         document.getElementById("updateReporterForm").addEventListener("submit", updateReporter);
+    }
+
+    if (document.getElementById("updateReporterForm")) {
+        fetchTableData();
+        loadReporterTuples();
         document.getElementById("displayGroupByCity").addEventListener("click", displayGroupByCity);
     }
 
