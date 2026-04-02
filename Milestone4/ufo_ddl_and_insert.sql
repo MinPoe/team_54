@@ -193,7 +193,7 @@ INSERT INTO Report VALUES (30, 67, 53, 30, 'Under investigation', 10);
 INSERT INTO Report VALUES (40, 99, 4, 15, 'Investigation completed', 1);
 INSERT INTO Report VALUES (41, 1, 2, 3, 'Under investigation', 6);
 INSERT INTO Report VALUES (42, 32, 4, 2, 'To be investigated', 5);
-INSERT INTO Report VALUES (43, 99, 1, 4, 'Investigation completed', 8);
+INSERT INTO Report VALUES (43, 1, 1, 4, 'Investigation completed', 8);
 
 INSERT INTO Conclusion VALUES (1, 23, '06-MAR-26 11:07:07 AM', 'Y', 3);
 INSERT INTO Conclusion VALUES (2, 77, '05-MAR-26 01:07:07 AM', 'N', 5);
