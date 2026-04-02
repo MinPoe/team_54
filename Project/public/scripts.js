@@ -199,31 +199,6 @@ async function displayNestedGroupBy() {
 
 // ---- INSERT Report (with FK validation) ----
  
-// Populate encounter and reporter dropdowns on page load
-async function populateInsertReportDropdowns() {
-    const encRes = await fetch('/encounters');
-    const encData = await encRes.json();
-    const encSelect = document.getElementById('insertReportEncounterID');
-    encSelect.innerHTML = '<option value="">-- Select Encounter --</option>';
-    for (const id of encData.data) {
-        const opt = document.createElement('option');
-        opt.value = id;
-        opt.textContent = `Encounter ${id}`;
-        encSelect.appendChild(opt);
-    }
- 
-    const repRes = await fetch('/reporters');
-    const repData = await repRes.json();
-    const repSelect = document.getElementById('insertReportReporterID');
-    repSelect.innerHTML = '<option value="">-- Select Reporter --</option>';
-    for (const row of repData.data) {
-        const opt = document.createElement('option');
-        opt.value = row[0];
-        opt.textContent = `${row[0]} - ${row[1]}`;
-        repSelect.appendChild(opt);
-    }
-}
- 
 async function insertReport(event) {
     event.preventDefault();
     const msgEl = document.getElementById('insertReportMsg');
@@ -590,7 +565,6 @@ window.onload = function() {
     checkDbConnection();
     if (document.getElementById("reportTable")) {
         fetchTableData();
-        populateInsertReportDropdowns();
         document.getElementById("resetReportTable").addEventListener("click", resetReportTable);
         document.getElementById("insertReportForm").addEventListener("submit", insertReport);
         document.getElementById("countReportTable").addEventListener("click", countReportTable);
