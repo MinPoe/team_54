@@ -65,11 +65,7 @@
         Witness Count: <input type="number" id="insertReportWitnessCount" placeholder="Enter Witness Count" min="1"> <br><br>
  
         Report Status:
-        <select id="insertReportStatus">
-            <option value="Under investigation">Under investigation</option>
-            <option value="Investigation completed">Investigation completed</option>
-            <option value="To be investigated">To be investigated</option>
-        </select> <br><br>
+        <input type="text" id="insertReportStatus" placeholder="Must be one of: Under investigation, Investigation completed, or To be investigated (case sensitive)" required> <br><br>
  
         Credibility Score: <input type="number" id="insertReportCredScore" placeholder="Enter Credibility Score (1-10)" min="1" max="10"> <br><br>
  

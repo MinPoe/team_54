@@ -207,7 +207,7 @@ async function insertReport(event) {
     const encounterID = document.getElementById('insertReportEncounterID').value.trim();
     const reporterID = document.getElementById('insertReportReporterID').value.trim();
     const witnessCount = document.getElementById('insertReportWitnessCount').value.trim();
-    const reportStatus = document.getElementById('insertReportStatus').value;
+    const reportStatus = document.getElementById('insertReportStatus').value.trim();
     const credibilityScore = document.getElementById('insertReportCredScore').value.trim();
 
     if (!reportID || !encounterID || !reporterID) {
@@ -227,6 +227,11 @@ async function insertReport(event) {
     }
     if (credibilityScore && (isNaN(credibilityScore) || parseInt(credibilityScore) < 1 || parseInt(credibilityScore) > 10)) {
         msgEl.textContent = 'Credibility score must be between 1 and 10.';
+        msgEl.style.color = 'red';
+        return;
+    }
+    if (!reportStatus) {
+        msgEl.textContent = 'Report status is required';
         msgEl.style.color = 'red';
         return;
     }

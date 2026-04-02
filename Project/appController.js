@@ -100,7 +100,11 @@ router.get('/reporters', async (req, res) => {
 
 router.post('/insert-report', async (req, res) => {
     const { reportID, encounterID, reporterID, witnessCount, reportStatus, credibilityScore } = req.body;
- 
+    const status = ["Under investigation", "Investigation completed", "To be investigated"];
+    
+    if (!status.includes(reportStatus) || !reportStatus) {
+        return res.status(400).json({success: false, message: 'Invalid status. Must be Under investigation, Investigation completed, or To be investigated (case sensitive)'})
+    }
     if (!reportID || !encounterID || !reporterID) {
         return res.status(400).json({ success: false, message: 'Report ID, Encounter ID, and Reporter ID are required.' });
     }
