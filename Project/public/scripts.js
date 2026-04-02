@@ -62,8 +62,8 @@ async function fetchAndDisplayUsers() {
     });
 }
 
-// This function resets or initializes the Report table.
-async function resetReportTable() {
+// This function resets or initializes the tables.
+async function resetTables() {
     const response = await fetch("/initiate-report-table", {
         method: 'POST'
     });
@@ -71,10 +71,10 @@ async function resetReportTable() {
 
     if (responseData.success) {
         const messageElement = document.getElementById('resetResultMsg');
-        messageElement.textContent = "Report table initiated successfully!";
+        messageElement.textContent = "Tables initiated successfully!";
         fetchTableData();
     } else {
-        alert("Error initiating table!");
+        alert("Error initiating tables!");
     }
 }
 
@@ -664,7 +664,7 @@ window.onload = function() {
     checkDbConnection();
     if (document.getElementById("reportTable")) {
         fetchTableData();
-        document.getElementById("resetReportTable").addEventListener("click", resetReportTable);
+        document.getElementById("resetTables").addEventListener("click", resetTables);
         document.getElementById("insertReportForm").addEventListener("submit", insertReport);
         document.getElementById("countReportTable").addEventListener("click", countReportTable);
     }
@@ -672,14 +672,19 @@ window.onload = function() {
     if (document.getElementById("executeSelectionUFO")) {
         loadReporterTuples();
         document.getElementById("fetchJoinQuery").addEventListener("submit", fetchJoinQuery);
+        document.getElementById("addSelectionCondition").addEventListener("click", addSelectionCondition);
+        document.getElementById("executeSelectionUFO").addEventListener("click", executeSelectionUFO);
+        document.getElementById("projectionLocationForm").addEventListener("submit", projectionLocation);
+        document.getElementById("groupByHavingTerrainForm").addEventListener("submit", groupByHavingTerrain);
+    }
+
+    if (document.getElementById("displayDivision")) {
+        fetchTableData();
+        loadReporterTuples();
         document.getElementById("displayDivision").addEventListener("click", displayDivision);
         document.getElementById("displayNestedGroupBy").addEventListener("click", displayNestedGroupBy);
         document.getElementById("updateReporterForm").addEventListener("submit", updateReporter);
-        document.getElementById("addSelectionCondition").addEventListener("click", addSelectionCondition);
-        document.getElementById("executeSelectionUFO").addEventListener("click", executeSelectionUFO);
         document.getElementById("displayGroupByCity").addEventListener("click", displayGroupByCity);
-        document.getElementById("projectionLocationForm").addEventListener("submit", projectionLocation);
-        document.getElementById("groupByHavingTerrainForm").addEventListener("submit", groupByHavingTerrain);
     }
 
     if (document.getElementById("encounterTable")) {
