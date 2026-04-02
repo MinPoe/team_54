@@ -203,13 +203,34 @@ async function insertReport(event) {
     event.preventDefault();
     const msgEl = document.getElementById('insertReportMsg');
  
-    const reportID = document.getElementById('insertReportID').value;
-    const encounterID = document.getElementById('insertReportEncounterID').value;
-    const reporterID = document.getElementById('insertReportReporterID').value;
-    const witnessCount = document.getElementById('insertReportWitnessCount').value;
+    const reportID = document.getElementById('insertReportID').value.trim();
+    const encounterID = document.getElementById('insertReportEncounterID').value.trim();
+    const reporterID = document.getElementById('insertReportReporterID').value.trim();
+    const witnessCount = document.getElementById('insertReportWitnessCount').value.trim();
     const reportStatus = document.getElementById('insertReportStatus').value;
-    const credibilityScore = document.getElementById('insertReportCredScore').value;
- 
+    const credibilityScore = document.getElementById('insertReportCredScore').value.trim();
+
+    if (!reportID || !encounterID || !reporterID) {
+        msgEl.textContent = 'Report ID, Encounter ID, and Reporter ID are required.';
+        msgEl.style.color = 'red';
+        return;
+    }
+    if (isNaN(reportID) || isNaN(encounterID) || isNaN(reporterID)) {
+        msgEl.textContent = 'Report ID, Encounter ID, and Reporter ID must be integers.';
+        msgEl.style.color = 'red';
+        return;
+    }
+    if (witnessCount && (isNaN(witnessCount) || parseInt(witnessCount) < 1)) {
+        msgEl.textContent = 'Witness count must be a positive integer.';
+        msgEl.style.color = 'red';
+        return;
+    }
+    if (credibilityScore && (isNaN(credibilityScore) || parseInt(credibilityScore) < 1 || parseInt(credibilityScore) > 10)) {
+        msgEl.textContent = 'Credibility score must be between 1 and 10.';
+        msgEl.style.color = 'red';
+        return;
+    }
+
     const response = await fetch('/insert-report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -266,15 +287,41 @@ async function updateReporter(event) {
     event.preventDefault();
     const msgEl = document.getElementById('updateReporterMsg');
  
-    const reporterID = document.getElementById('updateReporterID').value;
-    const newName = document.getElementById('updateReporterName').value;
-    const newAge = document.getElementById('updateReporterAge').value;
-    const newOccupation = document.getElementById('updateReporterOccupation').value;
-    const newReliability = document.getElementById('updateReporterReliability').value;
-    const newAddress = document.getElementById('updateReporterAddress').value;
- 
+    const reporterID = document.getElementById('updateReporterID').value.trim();
+    const newName = document.getElementById('updateReporterName').value.trim();
+    const newAge = document.getElementById('updateReporterAge').value.trim();
+    const newOccupation = document.getElementById('updateReporterOccupation').value.trim();
+    const newReliability = document.getElementById('updateReporterReliability').value.trim();
+    const newAddress = document.getElementById('updateReporterAddress').value.trim();
+
     if (!reporterID) {
         msgEl.textContent = 'Please select a reporter from the table first.';
+        msgEl.style.color = 'red';
+        return;
+    }
+    if (!newName || !newAge || !newOccupation) {
+        msgEl.textContent = 'Name, age, and occupation are required.';
+        msgEl.style.color = 'red';
+        return;
+    }
+    /* regex taken from https://stackoverflow.com/questions/12778083/regex-with-space-and-letters-only */
+    if (/[^a-zA-Z\s]+/.test(newName)) {
+        msgEl.textContent = 'Name must contain only letters and spaces.';
+        msgEl.style.color = 'red';
+        return;
+    }
+    if (/[^a-zA-Z\s]+/.test(newOccupation)) {
+        msgEl.textContent = 'Occupation must contain only letters and spaces.';
+        msgEl.style.color = 'red';
+        return;
+    }
+    if (isNaN(newAge) || parseInt(newAge) < 1 || parseInt(newAge) > 110) {
+        msgEl.textContent = 'Age must be a number between 1 and 120.';
+        msgEl.style.color = 'red';
+        return;
+    }
+    if (newReliability && (isNaN(newReliability) || parseInt(newReliability) < 1 || parseInt(newReliability) > 10)) {
+        msgEl.textContent = 'Reliability rating must be between 1 and 10.';
         msgEl.style.color = 'red';
         return;
     }
