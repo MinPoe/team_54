@@ -196,8 +196,8 @@ INSERT INTO Report VALUES (42, 32, 4, 2, 'To be investigated', 5);
 INSERT INTO Report VALUES (43, 1, 1, 4, 'Investigation completed', 8);
 
 INSERT INTO Conclusion VALUES (1, 23, '06-MAR-26 11:07:07 AM', 'Y', 3);
-INSERT INTO Conclusion VALUES (2, 77, '05-MAR-26 01:07:07 AM', 'N', 5);
-INSERT INTO Conclusion VALUES (3, 19, '06-FEB-26 01:13:07 PM', 'Y', 8);
+INSERT INTO Conclusion VALUES (2, 77, '05-MAR-26 01:07:07 AM', 'N', 2);
+INSERT INTO Conclusion VALUES (3, 19, '06-FEB-26 01:13:07 PM', 'Y', 1);
 INSERT INTO Conclusion VALUES (4, 30, '06-MAR-21 11:12:07 AM', 'N', 1);
 INSERT INTO Conclusion VALUES (5, 2, '06-JAN-26 11:07:12 AM', 'Y', 2);
 -- INSERT statements for relationship tables
@@ -229,6 +229,16 @@ INSERT INTO Observation VALUES (30, 4, 30, 'WMV');
 INSERT INTO Observation VALUES (40, 5, 30, 'MKV');
 INSERT INTO Observation VALUES (41, 2, 30, 'MP4');
 INSERT INTO Observation VALUES (42, 1, 30, 'MP4');
+INSERT INTO Observation VALUES (1, 6, 1000, 'MP4');
+INSERT INTO Observation VALUES (1, 7, 2000, 'MP4');
+INSERT INTO Observation VALUES (4, 6, 3000, 'MOV');
+INSERT INTO Observation VALUES (4, 7, 4000, 'MOV');
+INSERT INTO Observation VALUES (3, 6, 5000, 'AVI');
+INSERT INTO Observation VALUES (3, 7, 6000, 'AVI');
+INSERT INTO Observation VALUES (30, 6, 7000, 'WMV');
+INSERT INTO Observation VALUES (30, 7, 8000, 'WMV');
+INSERT INTO Observation VALUES (40, 6, 9000, 'MKV');
+INSERT INTO Observation VALUES (40, 7, 10000, 'MKV');
 
 INSERT INTO ResolutionAspect VALUES ('1080x720', '3:2');
 INSERT INTO ResolutionAspect VALUES ('1920x1080', '16:9');
@@ -240,10 +250,21 @@ INSERT INTO Visual VALUES (42, 1, '1080x720', 1);
 INSERT INTO Visual VALUES (41, 2, '1920x1080', 8);
 INSERT INTO Visual VALUES (3, 3, '400x400', 16);
 INSERT INTO Visual VALUES (30, 4, '400x400', 24);
-
 INSERT INTO Visual VALUES (1, 1, '400x400', 8);
 INSERT INTO Visual VALUES (4, 2, '400x400', 24);
 INSERT INTO Visual VALUES (40, 5, '400x400', 8);
+
+INSERT INTO Visual VALUES (1, 6, '1080x720', 8);
+INSERT INTO Visual VALUES (4, 6, '1080x720', 8);
+INSERT INTO Visual VALUES (3, 6, '1080x720', 8);
+INSERT INTO Visual VALUES (30, 6, '1080x720', 8);
+INSERT INTO Visual VALUES (40, 6, '1080x720', 8);
+
+INSERT INTO Visual VALUES (1, 7, '1920x1080', 8);
+INSERT INTO Visual VALUES (4, 7, '1920x1080', 8);
+INSERT INTO Visual VALUES (3, 7, '1920x1080', 8);
+INSERT INTO Visual VALUES (30, 7, '1920x1080', 8);
+INSERT INTO Visual VALUES (40, 7, '1920x1080', 8);
 
 INSERT INTO Audio VALUES (1, 1, 30, 20, 'Lossy');
 INSERT INTO Audio VALUES (4, 2, 30, 20, 'Lossless');
