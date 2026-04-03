@@ -354,26 +354,24 @@ let selectionConditions = [];
 function addSelectionCondition() {
     const container = document.getElementById('selectionConditionsContainer');
     const index = selectionConditions.length;
- 
+
     const condDiv = document.createElement('div');
     condDiv.className = 'selection-condition';
     condDiv.dataset.index = index;
- 
+    condDiv.style.cssText = 'display:flex; align-items:center; gap:8px; margin-bottom:6px;';
+
     let html = '';
- 
+
     // connector (AND/OR) -- only for conditions after the first
     if (index > 0) {
-        html += `
-            <select class="sel-connector">
-                <option value="AND">AND</option>
-                <option value="OR">OR</option>
-            </select>
-        `;
+        html += `<select class="sel-connector"><option value="AND">AND</option><option value="OR">OR</option></select>`;
+    } else {
+        html += `<span style="display:inline-block; width:53px;"></span>`; // spacer to align first row
     }
- 
-    // open parenthesis checkbox
-    html += `<label><input type="checkbox" class="sel-open-paren"> (</label> `;
- 
+
+    // open paren checkbox inline
+    html += `<label style="display:flex; align-items:center; gap:3px;"><input type="checkbox" class="sel-open-paren"> (</label>`;
+
     // attribute dropdown
     html += `
         <select class="sel-attribute">
@@ -383,16 +381,17 @@ function addSelectionCondition() {
             <option value="shape">shape</option>
             <option value="movement_pattern">movement_pattern</option>
         </select>
-        =
-        <input type="text" class="sel-value" placeholder="value">
     `;
- 
-    // close parenthesis checkbox
-    html += ` <label><input type="checkbox" class="sel-close-paren">) </label>`;
- 
+
+    // equals sign + value input
+    html += `<span>=</span><input type="text" class="sel-value" placeholder="value" style="width:120px;">`;
+
+    // close paren checkbox inline
+    html += `<label style="display:flex; align-items:center; gap:3px;"><input type="checkbox" class="sel-close-paren"> )</label>`;
+
     // remove button
-    html += ` <button type="button" class="sel-remove" onclick="removeSelectionCondition(${index})">✕</button>`;
- 
+    html += `<button type="button" class="sel-remove" onclick="removeSelectionCondition(${index})">✕</button>`;
+
     condDiv.innerHTML = html;
     container.appendChild(condDiv);
     selectionConditions.push(condDiv);
@@ -431,6 +430,23 @@ async function executeSelectionUFO() {
             msgEl.textContent = 'Please fill in all condition values.';
             msgEl.style.color = 'red';
             return;
+        }
+
+        // type validation based on attribute
+        if (attribute === 'UFO_ID' || attribute === 'ufo_size') {
+            if (isNaN(value) || !Number.isInteger(parseFloat(value)) || parseInt(value) < 1) {
+                msgEl.textContent = `"${attribute}" must be a positive integer.`;
+                msgEl.style.color = 'red';
+                return;
+            }
+        } else {
+            // colour, shape, movement_pattern -- letters and spaces only
+            // again, https://stackoverflow.com/questions/12778083/regex-with-space-and-letters-only regex resource, but deleted the hyphen filter part
+            if (/[^a-zA-Z\s]/.test(value)) {
+                msgEl.textContent = `"${attribute}" must contain only letters and spaces.`;
+                msgEl.style.color = 'red';
+                return;
+            }
         }
  
         if (openParen) {
