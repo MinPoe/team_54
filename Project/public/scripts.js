@@ -662,9 +662,9 @@ async function fetchAndDisplayEncounters() {
 // Add or remove event listeners based on the desired functionalities.
 window.onload = function() {
     checkDbConnection();
-    document.getElementById("resetTables").addEventListener("click", resetTables);
     if (document.getElementById("reportTable")) {
         fetchTableData();
+        document.getElementById("resetTables").addEventListener("click", resetTables);
         document.getElementById("insertReportForm").addEventListener("submit", insertReport);
         document.getElementById("countReportTable").addEventListener("click", countReportTable);
     }

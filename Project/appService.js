@@ -138,19 +138,17 @@ async function fetchJoinQuery(minCredibility) {
 async function fetchDivision() {
     return await withOracleDB(async (connection) => {
         const joinStatement = `
-            SELECT DISTINCT u.shape
-            FROM UFO u
+            SELECT ra.resolution
+            FROM ResolutionAspect ra
             WHERE NOT EXISTS (
-                (SELECT l.terrain_type
-                FROM Encounter_Location l)
+                (SELECT o.format
+                 FROM Observation o)
                 MINUS
-                (SELECT ll.terrain_type
-                 FROM UFO u1, Involves i, Encounter e, Encounter_Location ll
-                 WHERE u1.UFO_ID = i.UFO_ID
-                 AND i.encounter_ID = e.encounter_ID
-                 AND e.latitude = ll.latitude
-                 AND e.longitude = ll.longitude
-                 AND u.shape = u1.shape)
+                (SELECT o2.format
+                 FROM Observation o2
+                 JOIN Visual v ON o2.report_ID = v.report_ID
+                 AND o2.obs_num = V.obs_num
+                 WHERE v.resolution = ra.resolution)
             )
         `;
 

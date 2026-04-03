@@ -227,6 +227,8 @@ INSERT INTO Observation VALUES (4, 2, 30, 'MOV');
 INSERT INTO Observation VALUES (3, 3, 30, 'AVI');
 INSERT INTO Observation VALUES (30, 4, 30, 'WMV');
 INSERT INTO Observation VALUES (40, 5, 30, 'MKV');
+INSERT INTO Observation VALUES (41, 2, 30, 'MP4');
+INSERT INTO Observation VALUES (42, 1, 30, 'MP4');
 
 INSERT INTO ResolutionAspect VALUES ('1080x720', '3:2');
 INSERT INTO ResolutionAspect VALUES ('1920x1080', '16:9');
@@ -234,11 +236,14 @@ INSERT INTO ResolutionAspect VALUES ('400x400', '1:1');
 INSERT INTO ResolutionAspect VALUES ('400x200', '2:1');
 INSERT INTO ResolutionAspect VALUES ('100x800', '1:8');
 
-INSERT INTO Visual VALUES (1, 1, '1080x720', 1);
-INSERT INTO Visual VALUES (4, 2, '1920x1080', 8);
+INSERT INTO Visual VALUES (42, 1, '1080x720', 1);
+INSERT INTO Visual VALUES (41, 2, '1920x1080', 8);
 INSERT INTO Visual VALUES (3, 3, '400x400', 16);
 INSERT INTO Visual VALUES (30, 4, '400x200', 24);
-INSERT INTO Visual VALUES (40, 5, '100x800', 48);
+
+INSERT INTO Visual VALUES (1, 1, '400x400', 8);
+INSERT INTO Visual VALUES (4, 2, '400x400', 24);
+INSERT INTO Visual VALUES (40, 5, '400x400', 8);
 
 INSERT INTO Audio VALUES (1, 1, 30, 20, 'Lossy');
 INSERT INTO Audio VALUES (4, 2, 30, 20, 'Lossless');
