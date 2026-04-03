@@ -460,6 +460,15 @@ async function executeSelectionUFO() {
         condIndex++;
     }
  
+    // validate parentheses are balanced
+    const openCount = groups.filter(g => g.type === 'open').length;
+    const closeCount = groups.filter(g => g.type === 'close').length;
+    if (openCount !== closeCount) {
+        msgEl.textContent = `Unbalanced parentheses: ${openCount} opening and ${closeCount} closing.`;
+        msgEl.style.color = 'red';
+        return;
+    }
+
     const response = await fetch('/selection-ufo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
