@@ -534,11 +534,27 @@ async function deleteEncounter(event) {
 
 // PROJECTION
 async function projectionLocation(event) {
-    event.preventDefault(); // stop page refresh
+    event.preventDefault();
 
-    // get and format user input
     const userInput = document.getElementById('projectionAttributes').value;
-    const attributes = userInput.split(',').map(a => a.trim()).filter(a => a !== '');
+    const attributes = userInput
+        .split(',')
+        .map(a => a.trim().toLowerCase())
+        .filter(a => a !== '');
+
+    const tableElement = document.getElementById('projectionLocationTable');
+    const tableHeadRow = document.getElementById('projectionLocationHeadRow');
+    const tableBody = tableElement.querySelector('tbody');
+    const messageElement = document.getElementById('projectionLocationMsg');
+
+    tableHeadRow.innerHTML = '';
+    tableBody.innerHTML = '';
+    messageElement.textContent = '';
+
+    if (attributes.length === 0) {
+        messageElement.textContent = "Please enter at least one attribute.";
+        return;
+    }
 
     const response = await fetch('/projection-location', {
         method: 'POST',
@@ -548,19 +564,7 @@ async function projectionLocation(event) {
 
     const data = await response.json();
 
-    const tableElement = document.getElementById('projectionLocationTable');
-    const tableHeadRow = document.getElementById('projectionLocationHeadRow');
-    const tableBody = tableElement.querySelector('tbody');
-    const messageElement = document.getElementById('projectionLocationMsg');
-
-    // clear old results
-    tableHeadRow.innerHTML = '';
-    tableBody.innerHTML = '';
-    messageElement.textContent = '';
-
     if (data.success) {
-
-        // build table header
         attributes.forEach(attribute => {
             const th = document.createElement('th');
             th.textContent = attribute;
@@ -569,21 +573,16 @@ async function projectionLocation(event) {
 
         data.result.forEach(rowData => {
             const row = tableBody.insertRow();
-
             rowData.forEach((field, index) => {
                 const cell = row.insertCell(index);
                 cell.textContent = field;
             });
         });
 
-        if (data.result.length === 0) {
-            messageElement.textContent = "No results found.";
-        } else {
-            messageElement.textContent = "Query fetched!";
-        }
-
+        messageElement.textContent =
+            data.result.length === 0 ? "No results found." : "Query fetched!";
     } else {
-        messageElement.textContent = "Invalid attributes";
+        messageElement.textContent = "Invalid attributes.";
     }
 }
 
